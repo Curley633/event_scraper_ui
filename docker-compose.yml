@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  react-frontend:
+    container_name: react
+    build:
+      context: ./services/react-frontend
+      dockerfile: Dockerfile
+    volumes:
+     - './services/react-frontend:/app'
+     - '/app/node_modules'
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+  express-backend:
+    container_name: express
+    image: express-backend
+    build:
+      context: ./services/express-backend
+      dockerfile: Dockerfile
+    volumes:
+      - './services/express-backend:/app'
+      - '/app/node_modules'
+    networks:
+      - backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+  web-cli:
+    image: express-backend
+    networks:
+      - backend
+    command: sh
+
+networks:
+  backend:
+    driver: bridge
