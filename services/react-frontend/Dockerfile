@@ -14,9 +14,10 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 
 # install and cache app dependencies
-RUN npm install --silent \
-&& npm cache clean --force
-RUN npm install react-scripts@3.0.1 -g --silent
+RUN npm install --silent && \
+npm cache clean --force
+RUN npm install react-scripts@3.0.1 -g --silent && \
+npm install bootstrap --save && npm install --save reactstrap react react-dom
 
 # start app
 CMD ["npm", "start"]

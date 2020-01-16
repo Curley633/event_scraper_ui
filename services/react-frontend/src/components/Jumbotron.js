@@ -1,11 +1,11 @@
 import React from 'react';
 import { Jumbotron as Jumbo, Container } from 'react-bootstrap';
 import styled from 'styled-components';
-import HomePageImage from '../assets/maiden.jpeg';
+import HomePageImage from '../assets/cropped_maiden.JPG';
 
 const Styles = styled.div`
   .jumbo {
-    background: url(${HomePageImage}) no-repeat fixed bottom;
+    background: url(${HomePageImage});
     background-size: cover;
     color: #efefef;
     height: 200px;
@@ -29,8 +29,7 @@ export const Jumbotron = () => (
     <Jumbo fluid className="jumbo">
       <div className="overlay"></div>
       <Container>
-        <h1>Welcome</h1>
-        <p>Example text.......</p>
+        <h1> </h1>
       </Container>
     </Jumbo>
   </Styles>

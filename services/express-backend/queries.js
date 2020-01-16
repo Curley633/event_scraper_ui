@@ -16,6 +16,26 @@ const getMonroesData = (request, response) => {
   })
 }
 
+const getTicketmasterData = (request, response) => {
+  pool.query('SELECT * FROM ticketmaster_event_table ORDER BY index ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBlabbermouthData = (request, response) => {
+  pool.query('SELECT * FROM blabbermouth_news_article_table ORDER BY index ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
   getMonroesData,
+  getTicketmasterData,
+  getBlabbermouthData,
 }
