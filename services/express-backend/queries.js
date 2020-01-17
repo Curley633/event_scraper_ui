@@ -34,8 +34,18 @@ const getBlabbermouthData = (request, response) => {
   })
 }
 
+const getDMEData = (request, response) => {
+  pool.query('SELECT * FROM dme_events_table ORDER BY index ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
   getMonroesData,
   getTicketmasterData,
   getBlabbermouthData,
+  getDMEData,
 }

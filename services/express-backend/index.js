@@ -30,6 +30,7 @@ app.get('/', (request, response) => {
 app.get('/monroes', db.getMonroesData)
 app.get('/ticketmaster', db.getTicketmasterData)
 app.get('/blabbermouth', db.getBlabbermouthData)
+app.get('/dme', db.getDMEData)
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
