@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Home } from './Home'
 import { DMEEvents } from './DME/DMEEvents'
+import { TicketmasterEvents } from './Ticketmaster/TicketmasterEvents';
+import { BlabbermouthArticles } from './Blabbermouth/BlabbermouthArticles';
 import { About } from './About'
 import { Contact } from './Contact'
 import { NoMatch } from './NoMatch'
@@ -23,7 +25,9 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
-              <Route component="/dme" component={DMEEvents} />
+              <Route path="/dme" component={DMEEvents} />
+              <Route path="/ticketmaster" component={TicketmasterEvents} />
+              <Route path="/blabbermouth" component={BlabbermouthArticles} />
               <Route component={NoMatch} />
             </Switch>
           </Layout>

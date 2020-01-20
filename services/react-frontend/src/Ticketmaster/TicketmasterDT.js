@@ -1,12 +1,10 @@
-
 import React, { Component } from 'react'
 import { Table, Button } from 'reactstrap';
-import ModalForm from '../Modals/Modal'
 
-export default class DataTable extends Component {
+export default class TicketmasterDataTable extends Component {
 
   render() {
-    const items = this.props.items.map(item => {
+    const TMItems = this.props.TMItems.map(item => {
       return (
         <tr key={item.index}>
           <th scope="row">{item.index}</th>
@@ -14,7 +12,7 @@ export default class DataTable extends Component {
           <td>{item.location}</td>
           <td>{item.month}</td>
           <td>{item.day}</td>
-      <a href={item.ticketlink} text-align="right">{item.name} {item.location}</a>
+      <a href={item.ticketlink}>{item.name} {item.location}</a>
         </tr>
       )
     })
@@ -32,11 +30,9 @@ export default class DataTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {items}
+          {TMItems}
         </tbody>
       </Table>
     )
   }
 }
-
-// export default DataTable

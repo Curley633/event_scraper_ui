@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 export default class DMEDataTable extends Component {
 
@@ -10,7 +10,7 @@ export default class DMEDataTable extends Component {
           <th scope="row">{DMEItem.index}</th>
           <td>{DMEItem.title}</td>
           <td>{DMEItem.details}</td>
-      <a href={DMEItem.link}>{DMEItem.title}</a>
+          <a href={DMEItem.link}>{DMEItem.title}</a>
         </tr>
       )
     })
