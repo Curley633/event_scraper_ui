@@ -24,7 +24,7 @@ state = {
       <Container className="TicketmasterApp">
         <Row>
           <Col>
-            <h1 style={{margin: "20px 0"}}>Ticketmaster Events</h1>
+            <h1 style={{margin: "20px 0"}}>Ticketmaster Metal Events</h1>
           </Col>
         </Row>
         <Row>
