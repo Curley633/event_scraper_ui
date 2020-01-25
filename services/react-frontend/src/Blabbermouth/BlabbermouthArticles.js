@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap';
 import BlabbermouthDT from '../Blabbermouth/BlabbermouthDT'
+import Dropdown from '../components/Dropdown';
+import styled from 'styled-components';
+
+const Styles = styled.div`
+text-align: left;
+`;
 
 export class BlabbermouthArticles extends Component {
 
@@ -21,18 +27,21 @@ state = {
 
   render() {
     return (
-      <Container className="BlabbermouthApp">
-        <Row>
-          <Col>
-            <h1 style={{margin: "20px 0"}}>Blabbermouth News</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <BlabbermouthDT BMItems={this.state.BMItems}/>
-          </Col>
-        </Row>
-      </Container>
+      <Styles>
+        <Container className="BlabbermouthApp">
+          <Dropdown />
+          <Row>
+            <Col>
+              <h1 style={{margin: "20px 0"}}>Blabbermouth News</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <BlabbermouthDT BMItems={this.state.BMItems}/>
+            </Col>
+          </Row>
+        </Container>
+      </Styles>
     )
   }
 }

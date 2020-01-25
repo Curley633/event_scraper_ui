@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap';
 import TicketmasterDataTable from '../Ticketmaster/TicketmasterDT'
+import Dropdown from '../components/Dropdown';
+import styled from 'styled-components';
+
+const Styles = styled.div`
+text-align: left;
+`;
 
 export class TicketmasterEvents extends Component {
 
@@ -21,18 +27,21 @@ state = {
 
   render() {
     return (
-      <Container className="TicketmasterApp">
-        <Row>
-          <Col>
-            <h1 style={{margin: "20px 0"}}>Ticketmaster Metal Events</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <TicketmasterDataTable TMItems={this.state.TMItems}/>
-          </Col>
-        </Row>
-      </Container>
+      <Styles>
+        <Container className="TicketmasterApp">
+          <Dropdown/>
+          <Row>
+            <Col>
+              <h1 style={{margin: "20px 0"}}>Ticketmaster Metal Events</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <TicketmasterDataTable TMItems={this.state.TMItems}/>
+            </Col>
+          </Row>
+        </Container>
+      </Styles>
     )
   }
 }

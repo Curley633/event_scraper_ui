@@ -1,44 +1,43 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap';
-import DMEDataTable from '../DME/DMEDataTable'
+import MetalCellDT from '../MetalCell/MetalCellDT'
 import styled from 'styled-components';
 import Dropdown from '../components/Dropdown';
-
 
 const Styles = styled.div`
   text-align: left;
   `;
 
-export class DMEEvents extends Component {
+export class MetalCellPodcasts extends Component {
 
 state = {
-    DMEItems: []
+    MetalCellItems: []
   }
 
-  getDMEItems(){
-    fetch('http://localhost:5000/dme')
+  getMetalCellItems(){
+    fetch('http://localhost:5000/metalcell')
       .then(response => response.json())
-      .then(DMEItems => this.setState({DMEItems}))
+      .then(MetalCellItems => this.setState({MetalCellItems}))
       .catch(err => console.log(err))
   }
 
   componentDidMount(){
-    this.getDMEItems()
+    this.getMetalCellItems()
   }
 
   render() {
     return (
       <Styles>
-        <Container className="DMEApp">
+        <Container className="MetlCellApp">
+          <Dropdown/>
           <Row>
             <Col>
-            <Dropdown/>
-              <h1 style={{margin: "20px 0"}}>DME Events</h1>
+              <h1 style={{margin: "20px 0"}}>Metal Cell Podcasts</h1>
             </Col>
           </Row>
           <Row>
             <Col>
-              <DMEDataTable DMEItems={this.state.DMEItems}/>
+              <MetalCellDT MetalCellItems={this.state.MetalCellItems}/>
             </Col>
           </Row>
         </Container>

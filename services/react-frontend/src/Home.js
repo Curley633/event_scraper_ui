@@ -15,7 +15,7 @@ export const Home = () => {
             <CardText>
               <strong>Dublin Metal Events Presents...</strong>              
             </CardText>
-            <Button href="http://localhost:3001/dme">DME Metal Events</Button>
+            <Button href="/dme">DME Metal Events</Button>
           </Card>
         </Card>
       </Col>
@@ -30,7 +30,7 @@ export const Home = () => {
             <CardText>
               <strong>Hard Rock/Metal Events In Ireland</strong>            
             </CardText>
-          <Button href="http://localhost:3001/ticketmaster">Ticketmaster</Button>
+          <Button href="/ticketmaster">Ticketmaster</Button>
          </Card>
         </Card>
       </Col>
@@ -47,9 +47,23 @@ export const Home = () => {
         </CardHeader>
           <Card body>
             <CardText>
-              <strong>The latest News In Metal</strong>            
+              <strong>The latest News In Metal</strong>
             </CardText>
-            <Button href="http://localhost:3001/blabbermouth">Blabbermouth</Button>
+            <Button href="/blabbermouth">Blabbermouth</Button>
+          </Card>
+        </Card>
+      </Col>
+
+      <Col sm="6">
+        <Card border="primary">
+        <CardHeader>
+          <b><strong>The Metal Cell Podcast</strong></b>
+        </CardHeader>
+          <Card body>
+            <CardText>
+              <strong>A Metal show dedicated to promoting and growing the Irish Metal Scene</strong>            
+            </CardText>
+            <Button href="/metalcell">The Metal Cell</Button>
           </Card>
         </Card>
       </Col>

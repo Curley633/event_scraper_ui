@@ -8,8 +8,8 @@ export default class DMEDataTable extends Component {
       return (
         <tr key={DMEItem.index}>
           {/* <th scope="row">{DMEItem.index}</th> */}
-          <td>{DMEItem.title}</td>
-          <td>{DMEItem.details}</td>
+          <td align="left">{DMEItem.title}</td>
+          <td align="left">{DMEItem.details}</td>
           <a href={DMEItem.link}>Tickets</a>
         </tr>
       )

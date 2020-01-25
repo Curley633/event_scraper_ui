@@ -5,6 +5,7 @@ import { Home } from './Home'
 import { DMEEvents } from './DME/DMEEvents'
 import { TicketmasterEvents } from './Ticketmaster/TicketmasterEvents';
 import { BlabbermouthArticles } from './Blabbermouth/BlabbermouthArticles';
+import { MetalCellPodcasts } from './MetalCell/MetalCellPodcasts';
 import { About } from './About'
 import { Contact } from './Contact'
 import { NoMatch } from './NoMatch'
@@ -28,6 +29,7 @@ class App extends Component {
               <Route path="/dme" component={DMEEvents} />
               <Route path="/ticketmaster" component={TicketmasterEvents} />
               <Route path="/blabbermouth" component={BlabbermouthArticles} />
+              <Route path="/metalcell" component={MetalCellPodcasts} />
               <Route component={NoMatch} />
             </Switch>
           </Layout>

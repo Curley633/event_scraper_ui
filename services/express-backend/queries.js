@@ -44,9 +44,19 @@ const getDMEData = (request, response) => {
   })
 }
 
+const getMetalCellData = (request, response) => {
+  pool.query('SELECT * FROM metal_cell_podcasts ORDER BY index ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
   getMonroesData,
   getTicketmasterData,
   getBlabbermouthData,
   getDMEData,
+  getMetalCellData,
 }
