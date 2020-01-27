@@ -7,10 +7,10 @@ export default class DMEDataTable extends Component {
     const DMEItems = this.props.DMEItems.map(DMEItem => {
       return (
         <tr key={DMEItem.index}>
-          {/* <th scope="row">{DMEItem.index}</th> */}
+          <th scope="row">{DMEItem.index}</th>
           <td align="left">{DMEItem.title}</td>
           <td align="left">{DMEItem.details}</td>
-          <a href={DMEItem.link}>Tickets</a>
+          <a href={DMEItem.link}>{DMEItem.title}</a>
         </tr>
       )
     })
@@ -19,6 +19,7 @@ export default class DMEDataTable extends Component {
       <Table responsive hover>
         <thead>
           <tr>
+            <th></th>
             <th>Artist/s</th>
             <th>Details</th>
             <th>Tickets</th>
