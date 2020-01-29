@@ -26,9 +26,10 @@ state = {
   }
 
   render() {
+    console.log(this.state.MetalCellItems.mp3)
     return (
       <Styles>
-        <Container className="MetlCellApp">
+        <Container className="MetalCellApp">
           <Dropdown/>
           <Row>
             <Col>

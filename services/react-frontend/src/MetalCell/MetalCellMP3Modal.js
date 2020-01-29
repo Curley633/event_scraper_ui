@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import styled from 'styled-components'
-import MetalCellDT from './MetalCellDT'
+import MetalCellItems from './MetalCellDT'
 
 const Styles = styled.div`
   a, .button {
@@ -9,7 +9,7 @@ const Styles = styled.div`
   }
 `;
 
-const MetalCellMp3player = (props) => {
+const MetalCellMp3Modal = (props) => {
   const {
     className
   } = props;
@@ -18,20 +18,16 @@ const MetalCellMp3player = (props) => {
 
   const toggle = () => setModal(!modal);
 
-  // const MetalCellItemsMP3=MetalCellDT.MetalCellItem.map.mp3
-  // const MetalCellItems = this.props.MetalCellItems.map(MetalCellItem.mp3 => {
-
-
-  // )}
+  console.log(MetalCellItems.mp3)
   
   return (
-      <Styles>
+    <Styles>
         <Button color="primary" onClick={toggle}>Mp3</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
           <ModalBody>
             <audio controls>
-              <source src="https://chtbl.com/track/39249/aphid.fireside.fm/d/1437767933/fb28b2bb-19a2-4a23-abe6-2f6359e54b9d/50b1fcfe-f1f2-4fc5-8552-71b312c80d16.mp3"></source>
+                <source src={MetalCellItems.mp3}></source>
               Your browser does not support the audio element.
             </audio>
           </ModalBody>
@@ -43,4 +39,4 @@ const MetalCellMp3player = (props) => {
   );
 }
 
-export default MetalCellMp3player;
+export default MetalCellMp3Modal;
