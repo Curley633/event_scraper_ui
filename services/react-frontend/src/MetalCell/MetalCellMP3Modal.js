@@ -10,25 +10,27 @@ const Styles = styled.div`
 `;
 
 const MetalCellMp3Modal = (props) => {
+  
   const {
-    className
+    MetalCellItems,
   } = props;
 
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
 
-  console.log(MetalCellItems.mp3)
+  console.log(MetalCellItems)
   
   return (
     <Styles>
         <Button color="primary" onClick={toggle}>Mp3</Button>
-      <Modal isOpen={modal} toggle={toggle} className={className}>
+      <Modal isOpen={modal} toggle={toggle} Props={this.MetalCellItems}>
+        {/* <ModalHeader toggle={toggle}>Modal title</ModalHeader> */}
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
           <ModalBody>
             <audio controls>
-                <source src={MetalCellItems.mp3}></source>
-              Your browser does not support the audio element.
+                {/* <source src={MetalCellItems.mp3}>console.log({MetalCellItems.mp3})</source> */}
+                Your browser does not support the audio element.
             </audio>
           </ModalBody>
         <ModalFooter>

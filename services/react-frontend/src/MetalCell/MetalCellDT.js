@@ -7,16 +7,16 @@ export default class MetalCellDT extends Component {
     super(props)
     this.state = {
       showModal: false,
-      activeItemName: MetalCellDT.MetalCellItem,
+      activeItemName: '',
     }
   }
 
   state = { show: false };
 
-  showModal = () => {
+  showModal = (MetalCellItems) => {
     this.setState({ 
       show: true,
-      // activeItemName: MetalCellDT.MetalCellItem.mp3,
+      activeItemName: MetalCellItems.mp3,
     });
   }
 
@@ -32,13 +32,17 @@ export default class MetalCellDT extends Component {
           <td align="left">{MetalCellItem.title}</td>
           <td>{MetalCellItem.date}</td>
           <td>{MetalCellItem.duration}</td>
-          <MetalCellMp3Modal show={this.state.show} handleClose={this.hideModal}>
-            <td src={MetalCellItem.mp3}></td>
-          </MetalCellMp3Modal>
+          <td>
+            <MetalCellMp3Modal show={this.state.show} handleClose={this.hideModal}>
+              <button onClick={() => this.showModal( MetalCellItem )}>{MetalCellItem.mp3}</button>
+            </MetalCellMp3Modal>
+           </td>
+          <td>{MetalCellItem.mp3}</td>
         </tr>
       )
     })
-    // console.log(this.state.MetalCellItems[MetalCellItems].mp3)
+
+    console.log(MetalCellItems.mp3)
 
     return (
       <Table responsive hover>

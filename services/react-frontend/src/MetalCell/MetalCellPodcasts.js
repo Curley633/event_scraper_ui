@@ -26,7 +26,7 @@ state = {
   }
 
   render() {
-    console.log(this.state.MetalCellItems.mp3)
+    // console.log(this.state.MetalCellItems.mp3)
     return (
       <Styles>
         <Container className="MetalCellApp">
