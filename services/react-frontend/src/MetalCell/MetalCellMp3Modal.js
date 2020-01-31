@@ -12,7 +12,7 @@ const Styles = styled.div`
 const MetalCellMp3Modal = (props) => {
   
   const {
-    MetalCellItems,
+    className,
   } = props;
 
   const [modal, setModal] = useState(false);
@@ -24,7 +24,7 @@ const MetalCellMp3Modal = (props) => {
   return (
     <Styles>
         <Button color="primary" onClick={toggle}>Mp3</Button>
-      <Modal isOpen={modal} toggle={toggle} Props={this.MetalCellItems}>
+      <Modal isOpen={modal} toggle={toggle} className={className}>
         {/* <ModalHeader toggle={toggle}>Modal title</ModalHeader> */}
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
           <ModalBody>
