@@ -15,7 +15,7 @@ export default class BlabbermouthDT extends Component {
     })
 
     return (
-      <div class="pagination">
+      <div className="pagination">
         <Table responsive hover>
           <thead>
             <tr>
@@ -28,7 +28,7 @@ export default class BlabbermouthDT extends Component {
             {BMItems}
           </tbody>
         </Table>
-      ></div>
+      </div>
     )
   }
 }

@@ -29,7 +29,7 @@ state = {
     return (
       <Styles>
         <Container className="BlabbermouthApp">
-          <Dropdown />
+          <Dropdown/>
           <Row>
             <Col>
               <h1 style={{margin: "20px 0"}}>Blabbermouth News</h1>

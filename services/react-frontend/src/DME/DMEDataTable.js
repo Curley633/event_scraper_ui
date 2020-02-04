@@ -10,7 +10,9 @@ export default class DMEDataTable extends Component {
           <th scope="row">{DMEItem.index}</th>
           <td align="left">{DMEItem.title}</td>
           <td align="left">{DMEItem.details}</td>
-          <a href={DMEItem.link}>{DMEItem.title}</a>
+          <td>
+            <a href={DMEItem.link}>{DMEItem.title}</a>
+          </td>
         </tr>
       )
     })
