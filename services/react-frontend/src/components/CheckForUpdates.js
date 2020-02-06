@@ -5,7 +5,7 @@ var username = "james"
 var password = "curley"
 const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
-const searchLatest = "http://206.189.165.104:8080/view/All/job/run_web_scrapers_test/buildWithParameters?token=g44ygrf696fywo74ehfbkyfy66&SCRAPER_SOURCE=DME";
+const searchLatest = "http://206.189.165.104:8080/view/All/job/run_web_scrapers_test/buildWithParameters?SCRAPER_SOURCE=BLABBERMOUTH&token=g44ygrf696fywo74ehfbkyfy66";
 var headers = new Headers();
 
 const CheckForUpdates = (props) => {

@@ -1,22 +1,20 @@
 import React, { Component } from 'react'
 import { Table } from 'reactstrap';
-import MetalCellMp3Modal from './MetalCellMp3Modal'
+import MetalCellMp3Modal from './MetalCellMp3Modal';
 
 export default class MetalCellDT extends Component {
   constructor(props) {
     super(props)
     this.state = {
       showModal: false,
-      activeItemName: '',
     }
   }
 
   state = { show: false };
 
-  showModal = (MetalCellItems) => {
+  showModal = () => {
     this.setState({ 
       show: true,
-      activeItemName: MetalCellItems.mp3,
     });
   }
 
@@ -33,11 +31,10 @@ export default class MetalCellDT extends Component {
           <td>{MetalCellItem.date}</td>
           <td>{MetalCellItem.duration}</td>
           <td>
-            <MetalCellMp3Modal show={this.state.show} handleClose={this.hideModal}>
+            <MetalCellMp3Modal mp3={MetalCellItem.mp3} show={this.state.show} handleClose={this.hideModal}>
               <button onClick={() => this.showModal( MetalCellItem )}>{MetalCellItem.mp3}</button>
             </MetalCellMp3Modal>
            </td>
-          <td>{MetalCellItem.mp3}</td>
         </tr>
       )
     })
