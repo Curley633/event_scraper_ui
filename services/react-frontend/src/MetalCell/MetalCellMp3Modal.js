@@ -11,7 +11,6 @@ const Styles = styled.div`
 const MetalCellMp3Modal = ({
   className,
   mp3,
-  title
 }) => {
   const [modal, setModal] = useState(false);
 

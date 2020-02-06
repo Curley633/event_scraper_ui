@@ -12,7 +12,9 @@ export default class TicketmasterDataTable extends Component {
           <td>{item.location}</td>
           <td>{item.month}</td>
           <td>{item.day}</td>
-      <a href={item.ticketlink}>{item.name} {item.location}</a>
+          <td>
+            <a href={item.ticketlink}>{item.name} {item.location}</a>
+          </td>
         </tr>
       )
     })

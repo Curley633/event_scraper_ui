@@ -9,13 +9,15 @@ export default class BlabbermouthDT extends Component {
         <tr key={BMItem.index}>
           <th scope="row">{BMItem.index}</th>
           <td>{BMItem.title}</td>
-          <a href={BMItem.link}>Read it..</a>
+          <td>
+            <a href={BMItem.link}>Read it..</a>
+          </td>
         </tr>
       )
     })
 
     return (
-      <div className="pagination">
+      <div>
         <Table responsive hover>
           <thead>
             <tr>

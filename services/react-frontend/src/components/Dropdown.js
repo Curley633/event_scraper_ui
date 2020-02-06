@@ -7,7 +7,7 @@ const Dropdown = (props) => {
   const toggle = () => setOpen(!dropdownOpen);
 
   return (
-    <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+    <ButtonDropdown direction="left" isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle caret>
         Select
       </DropdownToggle>

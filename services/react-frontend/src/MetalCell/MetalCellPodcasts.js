@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import MetalCellDT from '../MetalCell/MetalCellDT'
 import styled from 'styled-components';
 import Dropdown from '../components/Dropdown';
+import CheckForUpdates from '../components/CheckForUpdates';
 
 const Styles = styled.div`
   text-align: left;
@@ -10,39 +11,43 @@ const Styles = styled.div`
 
 export class MetalCellPodcasts extends Component {
 
-state = {
-    MetalCellItems: []
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
-  getMetalCellItems(){
-    fetch('http://localhost:5000/metalcell')
-      .then(response => response.json())
-      .then(MetalCellItems => this.setState({MetalCellItems}))
-      .catch(err => console.log(err))
-  }
+  state = {
+      MetalCellItems: []
+    }
 
-  componentDidMount(){
-    this.getMetalCellItems()
-  }
+    getMetalCellItems(){
+      fetch('http://localhost:5000/metalcell')
+        .then(response => response.json())
+        .then(MetalCellItems => this.setState({MetalCellItems}))
+        .catch(err => console.log(err))
+    }
 
-  render() {
-    // console.log(this.state.MetalCellItems.mp3)
-    return (
-      <Styles>
-        <Container className="MetalCellApp">
-          <Dropdown/>
-          <Row>
-            <Col>
-              <h1 style={{margin: "20px 0"}}>Metal Cell Podcasts</h1>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <MetalCellDT MetalCellItems={this.state.MetalCellItems}/>
-            </Col>
-          </Row>
-        </Container>
-      </Styles>
-    )
-  }
+    componentDidMount(){
+      this.getMetalCellItems()
+    }
+
+    render() {
+      return (
+        <Styles>
+          <Container className="MetalCellApp">
+            <Dropdown/>
+            <CheckForUpdates sourceToUpdate="METALCELL"/>
+            <Row>
+              <Col>
+                <h1 style={{margin: "20px 0"}}>Metal Cell Podcasts</h1>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <MetalCellDT MetalCellItems={this.state.MetalCellItems}/>
+              </Col>
+            </Row>
+          </Container>
+        </Styles>
+      )
+    }
 }

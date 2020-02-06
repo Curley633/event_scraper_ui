@@ -39,8 +39,6 @@ export default class MetalCellDT extends Component {
       )
     })
 
-    console.log(MetalCellItems.mp3)
-
     return (
       <Table responsive hover>
         <thead>

@@ -10,10 +10,6 @@ const Styles = styled.div`
   `;
 
 export class DMEEvents extends Component {
-  constructor(props) {
-    super(props)
-  }
-
 
 state = {
     DMEItems: []
@@ -31,14 +27,13 @@ state = {
   }
 
   render() {
-    const DME = this.props
     return (
       <Styles>
         <Container className="DMEApp">
           <Row>
             <Col>
             <Dropdown/>
-            <CheckForUpdates/>
+            <CheckForUpdates sourceToUpdate = "DME"/>
               <h1 style={{margin: "20px 0"}}>DME Events</h1>
             </Col>
           </Row>
