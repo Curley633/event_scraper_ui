@@ -17,7 +17,7 @@ export function BlabbermouthArticles() {
     fetch('http://localhost:5000/blabbermouth')
       .then(response => response.json())
       .then(BMItems => {
-        // console.log("BMItems:", BMItems)
+        console.log("BMItems:", BMItems)
         setBMItems(BMItems);
         })
       .catch(err => console.log(err));

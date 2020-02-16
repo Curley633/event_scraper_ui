@@ -10,14 +10,21 @@ const Styles = styled.div`
 `;
 
 export function DMEEvents() {
+
   const [DMEItems, setDMEItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const LoadingIndicator = () => {
+    console.log("In Loading Indicator");
+    return <h1> Checking for Updates.. </h1>;
+  };
 
   const getDMEItems = () => {
-    console.log("getDMEItems has been called.");
+    // console.log("getDMEItems has been called.");
     fetch("http://localhost:5000/dme")
       .then(response => response.json())
       .then(DMEItems => {
-        // console.log("DMEItems", DMEItems);
+        console.log("DMEItems", DMEItems);
         setDMEItems(DMEItems);
       })
       .catch(err => console.log(err));
@@ -33,9 +40,14 @@ export function DMEEvents() {
         <Row>
           <Col>
             <Dropdown />
-            <CheckForUpdates sourceToUpdate="DME" onSuccess={getDMEItems} />
+            <CheckForUpdates
+              sourceToUpdate="DME"
+              onSuccess={getDMEItems}
+              setLoading={setLoading}
+            />
             <h1 style={{ margin: "20px 0" }}>DME Events</h1>
           </Col>
+          <Col>{loading && <LoadingIndicator />}</Col>
         </Row>
         <Row>
           <Col>
