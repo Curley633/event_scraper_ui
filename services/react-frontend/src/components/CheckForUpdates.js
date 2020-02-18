@@ -1,11 +1,5 @@
-import React, { useState } from "react";
-import {
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledAlert
-} from "reactstrap";
+import React from "react";
+import { Button } from "reactstrap";
 
 const appendedURL = "api/json";
 const username = "james";
@@ -20,8 +14,7 @@ var jobResult;
 var count = 0;
 
 const CheckForUpdates = props => {
-  const { sourceToUpdate, onSuccess, setLoading } = props;
-  console.log('setLoading', setLoading);
+  const { sourceToUpdate, onSuccess, setLoading, setOpen, setOpenFailed } = props;
 
   var triggerBuildApi =
     "http://206.189.165.104:8080/view/All/job/run_web_scrapers_test/buildWithParameters?SCRAPER_SOURCE=" +
@@ -29,16 +22,6 @@ const CheckForUpdates = props => {
     "&token=g44ygrf696fywo74ehfbkyfy66";
   var headers = new Headers();
 
-  // function displayFailureAlert() {
-  //   console.log("in alert function");
-  //   return (
-  //     <div>
-  //       <UncontrolledAlert color="info">
-  //         Problem Checking for updates, Please try again!
-  //       </UncontrolledAlert>
-  //     </div>
-  //   );
-  // }
   async function triggerJenkinsBuild() {
     setLoading(true);
 
@@ -90,8 +73,6 @@ const CheckForUpdates = props => {
   }
 
   async function getJobResult() {
-    console.log('setLoading', setLoading);
-
     requestJobResult = await fetch(proxyurl + buildUrl, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
@@ -107,9 +88,10 @@ const CheckForUpdates = props => {
         jobResult = data.result;
         if (jobResult === "FAILURE") {
           console.log(jobResult);
-          // displayFailureAlert();
-        } else {
-          if (sourceToUpdate === "BLABBERMOUTH") {
+          setOpenFailed(true);
+          console.log("piss");
+          return;
+        } else if (sourceToUpdate === "BLABBERMOUTH") {
             count++;
             if (count <= 2) {
               console.log("callback BLABBERMOUTH");
@@ -119,8 +101,10 @@ const CheckForUpdates = props => {
               console.log("BM timer done");
             }
             console.log("SUCCESS - Calling Component");
+            setOpen(true);
             onSuccess();
           } else {
+            console.log("dodge spot");
             count++;
             if (count <= 1) {
               console.log("callback to allow PG to update");
@@ -130,31 +114,19 @@ const CheckForUpdates = props => {
               console.log("DME timer done");
             }
             console.log("SUCCESS - Calling Component");
+            setOpen(true)
             onSuccess();
+            return;     
           }
-        }
       });
+      setOpenFailed(true);
     });
     await Promise.all([requestQueueUrl, requestBuildUrl, requestJobResult]);
     setLoading(false);
   }
 
-  const [dropdownOpen, setOpen] = useState(false);
-  const toggle = () => setOpen(!dropdownOpen);
-
   return (
-    <ButtonDropdown
-      className="float-right"
-      isOpen={dropdownOpen}
-      toggle={toggle}
-    >
-      <DropdownToggle caret>Check for Updates</DropdownToggle>
-      <DropdownMenu>
-        <DropdownItem>
-          <div onClick={() => triggerJenkinsBuild()}>This page</div>
-        </DropdownItem>
-      </DropdownMenu>
-    </ButtonDropdown>
+      <Button className="float-right" toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
   );
 };
 
