@@ -38,7 +38,7 @@ export function DMEEvents() {
     console.log("In success Alert");
     return (
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="info">
+        <Alert onClose={handleClose} color="primary">
           Page is Up to Date!
         </Alert>
       </Snackbar>
@@ -49,7 +49,7 @@ export function DMEEvents() {
     console.log("in Failure Alert");
     return (
       <Snackbar openFailed={openFailed} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="danger">
+        <Alert onClose={handleClose} color="red">
           Problem Checking for updates, Please Click "Check For Updates"!
         </Alert>
       </Snackbar>
@@ -59,12 +59,12 @@ export function DMEEvents() {
   const getDMEItems = () => {
     // console.log("getDMEItems has been called.");
     fetch("http://localhost:5000/dme")
-      .then(response => response.json())
-      .then(DMEItems => {
-        // console.log("DMEItems", DMEItems);
-        setDMEItems(DMEItems);
-      })
-      .catch(err => console.log(err));
+    .then(response => response.json())
+    .then(DMEItems => {
+      // console.log("DMEItems", DMEItems);
+      setDMEItems(DMEItems);
+    })
+    .catch(err => console.log(err));
   };
 
   useEffect(() => {
@@ -89,8 +89,7 @@ export function DMEEvents() {
             onSuccess={getDMEItems}
             setLoading={setLoading}
             setOpen={setOpen}
-            setOpenFailed={setOpenFailed}
-            />
+            setOpenFailed={setOpenFailed}/>
           <Col>
           </Col>
           </Col>

@@ -46,30 +46,30 @@ const CheckForUpdates = props => {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     })
-      .then(function(response) {
-        if (response.status !== 200) {
-          console.log(
-            "Looks like there was a problem. Status Code: " + response.status
-          );
-          return;
+    .then(function(response) {
+      if (response.status !== 200) {
+        console.log(
+          "Looks like there was a problem. Status Code: " + response.status
+        );
+        return;
+      }
+      response.json().then(function(data) {
+        console.log(data.why);
+        if (data.why !== null) {
+          setTimeout(() => {
+            getBuildUrl();
+          }, 1500);
+        } else {
+          buildUrl = data.executable.url + appendedURL;
+          console.log(buildUrl);
+          getJobResult();
         }
-        response.json().then(function(data) {
-          console.log(data.why);
-          if (data.why !== null) {
-            setTimeout(() => {
-              getBuildUrl();
-            }, 1500);
-          } else {
-            buildUrl = data.executable.url + appendedURL;
-            console.log(buildUrl);
-            getJobResult();
-          }
-        });
-      })
-      .catch(function(err) {
-        console.log("Fetch Error :-S", err);
-        setLoading(false);
       });
+    })
+    .catch(function(err) {
+      console.log("Fetch Error :-S", err);
+      setLoading(false);
+    });
   }
 
   async function getJobResult() {
@@ -84,27 +84,31 @@ const CheckForUpdates = props => {
         return;
       }
       response.json().then(function(data) {
-        // console.log(data.result)
+        console.log(data.result)
         jobResult = data.result;
         if (jobResult === "FAILURE") {
           console.log(jobResult);
+          setLoading(false);
           setOpenFailed(true);
-          console.log("piss");
           return;
-        } else if (sourceToUpdate === "BLABBERMOUTH") {
+        } else {
+          if (sourceToUpdate === "BLABBERMOUTH" || sourceToUpdate === "METALCELL") {
+            console.log("Detecting BM/MetalCell");
             count++;
             if (count <= 2) {
-              console.log("callback BLABBERMOUTH");
+              console.log("callback BLABBERMOUTH or METALCELL");
               setTimeout(() => {
                 getJobResult();
               }, 5000);
               console.log("BM timer done");
-            }
+            } else {
             console.log("SUCCESS - Calling Component");
+            setLoading(false);
             setOpen(true);
             onSuccess();
+            return;
+            }
           } else {
-            console.log("dodge spot");
             count++;
             if (count <= 1) {
               console.log("callback to allow PG to update");
@@ -112,17 +116,19 @@ const CheckForUpdates = props => {
                 getJobResult();
               }, 1000);
               console.log("DME timer done");
+            } else {
+              console.log("SUCCESS - Calling Component", count);
+              // console.log("count this:", count);
+              setLoading(false);
+              setOpen(true);
+              onSuccess();
+              return;
             }
-            console.log("SUCCESS - Calling Component");
-            setOpen(true)
-            onSuccess();
-            return;     
-          }
+          }          
+        }
       });
-      setOpenFailed(true);
     });
     await Promise.all([requestQueueUrl, requestBuildUrl, requestJobResult]);
-    setLoading(false);
   }
 
   return (
