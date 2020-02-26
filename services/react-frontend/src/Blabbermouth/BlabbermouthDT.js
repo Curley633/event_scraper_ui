@@ -1,10 +1,31 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap';
+import { Table,Button } from 'reactstrap';
+import styled from 'styled-components';
+
+const ButtonStyle = styled.button`
+  .load-more {
+}`
 
 export default class BlabbermouthDT extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      BMItems: [],
+      visible: 20,
+      error: false,
+    };
+    this.loadMore = this.loadMore.bind(this);
+  }
+
+  loadMore() {
+    this.setState((prev) => {
+      return{visible: prev.visible + 20};
+    });
+  }
 
   render() {
-    const BMItems = this.props.BMItems.map(BMItem => {
+    const BMItems = this.props.BMItems.slice(0,this.state.visible).map(BMItem => {
       return (
         <tr key={BMItem.index}>
           <th scope="row">{BMItem.index}</th>
@@ -13,16 +34,15 @@ export default class BlabbermouthDT extends Component {
             <a href={BMItem.link}>Read it..</a>
           </td>
         </tr>
-      )
+      );
     })
-
     return (
       <div>
         <Table responsive hover>
           <thead>
             <tr>
-              <th> </th>
-              <th>Headline </th>
+              <th></th>
+              <th>Headline</th>
               <th>Link</th>
             </tr>
           </thead>
@@ -30,6 +50,10 @@ export default class BlabbermouthDT extends Component {
             {BMItems}
           </tbody>
         </Table>
+        {this.state.visible < this.props.BMItems.length &&
+          <Button margin-bottom="40px" variant="primary" size="lg" onClick={this.loadMore} type="button" block>Load More</Button>
+        }
+        <br/>
       </div>
     )
   }

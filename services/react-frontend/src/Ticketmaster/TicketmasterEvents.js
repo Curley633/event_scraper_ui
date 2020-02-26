@@ -82,15 +82,15 @@ export function TicketmasterEvents() {
               {open && <UpdateSuccessSnackbar />}
               {openFailed && <UpdateFailedSnackbar />}
             </Col>
-            <Col>
-              <CheckForUpdates 
-              sourceToUpdate = "TICKETMASTER"
-              onSuccess={getTMItems}
-              setLoading={setLoading}
-              setOpen={setOpen}
-              setOpenFailed={setOpenFailed}/>
-            <Col>
-            </Col>
+              <Col>
+                <CheckForUpdates 
+                sourceToUpdate = "TICKETMASTER"
+                onSuccess={getTMItems}
+                setLoading={setLoading}
+                setOpen={setOpen}
+                setOpenFailed={setOpenFailed}/>
+              <Col>
+              </Col>
             </Col>
             </Row>
             <Row>

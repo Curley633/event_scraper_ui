@@ -24,8 +24,9 @@ app.use(cors(corsOptions))
 
 // An api endpoint that returns a short list of items
 app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
+    response.json({ info: 'Express' })
   })
+  
 // Sql GET requests from queries.js
 app.get('/monroes', db.getMonroesData)
 app.get('/ticketmaster', db.getTicketmasterData)

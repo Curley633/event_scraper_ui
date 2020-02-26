@@ -92,8 +92,8 @@ const CheckForUpdates = props => {
           setOpenFailed(true);
           return;
         } else {
-          if (sourceToUpdate === "BLABBERMOUTH" || sourceToUpdate === "METALCELL") {
-            console.log("Detecting BM/MetalCell");
+          if (sourceToUpdate === "BLABBERMOUTH" || sourceToUpdate === "METALCELL" || sourceToUpdate === "ALL") {
+            console.log("Detecting BM/MetalCell/ALL");
             count++;
             if (count <= 2) {
               console.log("callback BLABBERMOUTH or METALCELL");

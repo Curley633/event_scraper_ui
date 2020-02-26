@@ -58,30 +58,29 @@ export const Home = () => {
     <>
     <Row>
       <Col>
+        <Col>
+        </Col>
         <Styles>
           <CheckForUpdates
           sourceToUpdate="ALL"
           onSuccess={setOpen}
           setLoading={setLoading}
           setOpen={setOpen}
-          setOpenFailed={setOpenFailed}
-          />
+          setOpenFailed={setOpenFailed}/>
         </Styles>
       </Col>
       <Row>
         <p></p>
       </Row>
     </Row>
-      <Row>
+      <Col>
         <p></p>
-      </Row>
+      </Col>
       <Col align="center">
         {loading && <LoadingIndicator />}
         {open && <UpdateSuccessSnackbar />}
         {openFailed && <UpdateFailedSnackbar />}
       </Col>
-      <Row>
-      </Row>
       <Row>
         <Col sm="6">
           <Card border="primary">
@@ -114,7 +113,6 @@ export const Home = () => {
         <br />
       </Row>
       <br />
-      <br />
 
       <Row>
         <Col sm="6">
@@ -143,6 +141,7 @@ export const Home = () => {
               <Button href="/metalcell">The Metal Cell</Button>
             </Card>
           </Card>
+          <br/>
         </Col>
       </Row>
     </>
