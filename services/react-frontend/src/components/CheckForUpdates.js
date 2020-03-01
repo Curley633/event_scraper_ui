@@ -84,10 +84,10 @@ const CheckForUpdates = props => {
         return;
       }
       response.json().then(function(data) {
-        console.log(data.result)
+        console.log("Data.Result: ", data.result)
         jobResult = data.result;
         if (jobResult === "FAILURE") {
-          console.log(jobResult);
+          console.log("Result: ", jobResult);
           setLoading(false);
           setOpenFailed(true);
           return;
@@ -118,11 +118,9 @@ const CheckForUpdates = props => {
               console.log("DME timer done");
             } else {
               console.log("SUCCESS - Calling Component", count);
-              // console.log("count this:", count);
               setLoading(false);
               setOpen(true);
               onSuccess();
-              return;
             }
           }          
         }
@@ -132,7 +130,7 @@ const CheckForUpdates = props => {
   }
 
   return (
-      <Button className="float-right" toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
+    <Button className="float-right" toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
   );
 };
 

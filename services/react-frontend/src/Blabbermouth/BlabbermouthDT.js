@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import { Table,Button } from 'reactstrap';
-import styled from 'styled-components';
-
-const ButtonStyle = styled.button`
-  .load-more {
-}`
 
 export default class BlabbermouthDT extends Component {
   constructor(props) {

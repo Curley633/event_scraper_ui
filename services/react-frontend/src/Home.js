@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, CardHeader, Button, CardText, Row, Col, Spinner, Alert } from 'reactstrap';
+import { Container, Card, CardHeader, Button, CardText, Row, Col, Spinner, Alert } from 'reactstrap';
 import CheckForUpdates from './components/CheckForUpdates';
 import styled from 'styled-components';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -7,6 +7,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 const Styles = styled.div`
   align: center;
+  margin-bottom: 2em;
+  text-align: center;
   `;
 
 export const Home = () => {
@@ -55,32 +57,25 @@ export const Home = () => {
   }
 
   return (
-    <>
-    <Row>
-      <Col>
-        <Col>
+    <Container className="HomePage">
+      <Row className="spacer">
+        <Col align="right">
+          {loading && <LoadingIndicator />}
+          {open && <UpdateSuccessSnackbar />}
+          {openFailed && <UpdateFailedSnackbar />}
         </Col>
         <Styles>
-          <CheckForUpdates
-          sourceToUpdate="ALL"
-          onSuccess={setOpen}
-          setLoading={setLoading}
-          setOpen={setOpen}
-          setOpenFailed={setOpenFailed}/>
+          <Col>
+            <CheckForUpdates
+            sourceToUpdate="ALL"
+            onSuccess={setOpen}
+            setLoading={setLoading}
+            setOpen={setOpen}
+            setOpenFailed={setOpenFailed}/>
+          </Col>
         </Styles>
-      </Col>
-      <Row>
-        <p></p>
       </Row>
-    </Row>
-      <Col>
-        <p></p>
-      </Col>
-      <Col align="center">
-        {loading && <LoadingIndicator />}
-        {open && <UpdateSuccessSnackbar />}
-        {openFailed && <UpdateFailedSnackbar />}
-      </Col>
+      
       <Row>
         <Col sm="6">
           <Card border="primary">
@@ -144,7 +139,6 @@ export const Home = () => {
           <br/>
         </Col>
       </Row>
-    </>
+    </Container>
   );
 };
-  
