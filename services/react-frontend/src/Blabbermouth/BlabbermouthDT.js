@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table,Button } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 
 export default class BlabbermouthDT extends Component {
   constructor(props) {
@@ -7,7 +7,7 @@ export default class BlabbermouthDT extends Component {
 
     this.state = {
       BMItems: [],
-      visible: 20,
+      visible: 10,
       error: false,
     };
     this.loadMore = this.loadMore.bind(this);
@@ -15,7 +15,7 @@ export default class BlabbermouthDT extends Component {
 
   loadMore() {
     this.setState((prev) => {
-      return{visible: prev.visible + 20};
+      return{visible: prev.visible + 10};
     });
   }
 
@@ -46,7 +46,7 @@ export default class BlabbermouthDT extends Component {
           </tbody>
         </Table>
         {this.state.visible < this.props.BMItems.length &&
-          <Button margin-bottom="40px" variant="primary" size="lg" onClick={this.loadMore} type="button" block>Load More</Button>
+          <Button variant="primary" size="lg" onClick={this.loadMore} type="button" block>Load More</Button>
         }
         <br/>
       </div>

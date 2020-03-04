@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Spinner, Alert } from 'reactstrap';
+import { Container, Row, Col, Spinner } from 'reactstrap';
 import TicketmasterDataTable from '../Ticketmaster/TicketmasterDT'
 import Dropdown from '../components/Dropdown';
 import styled from 'styled-components';
 import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 import CheckForUpdates from '../components/CheckForUpdates';
+import CheckIcon from '@material-ui/icons/Check';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
 const Styles = styled.div`
 text-align: left;
@@ -26,7 +29,29 @@ export function TicketmasterEvents() {
     )
   };
 
-  const handleClose = (event, reason) => {
+  const UpdateFailedSnackbar = () => {
+    console.log("in Failure Alert");
+    return (
+      <Snackbar open={openFailed} autoHideDuration={6000} onClose={handleClose}>
+        <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="error">
+          Oops! Click "Check For Updates" again
+        </Alert>
+      </Snackbar>
+    );
+  }
+
+  const UpdateSuccessSnackbar = () => {
+    console.log("In success Alert");
+    return (
+      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Alert icon={<CheckIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="success">
+          Page is Up to Date!
+        </Alert>
+      </Snackbar>
+    );
+  }
+
+  const handleClose = (_event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -34,76 +59,52 @@ export function TicketmasterEvents() {
     setOpenFailed(false);
   };
 
-  const UpdateSuccessSnackbar = () => {
-    console.log("In success Alert");
-    return (
-      <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} color="primary">
-          Page is Up to Date!
-        </Alert>
-      </Snackbar>
-    );
+  const getTMItems = () => {
+    fetch('http://localhost:5000/ticketmaster')
+    .then(response => response.json())
+    .then(TMItems => {
+      // console.log("TMItems", TMItems);
+      setTMItems(TMItems);
+    })
+    .catch(err => console.log(err))
   }
 
-  const UpdateFailedSnackbar = () => {
-    console.log("in Failure Alert");
-    return (
-      <Snackbar openFailed={openFailed} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="danger">
-          Problem Checking for updates, Please Click "Check For Updates"!
-        </Alert>
-      </Snackbar>
-    );
-  }
+  useEffect(() => {
+    getTMItems();
+  }, []);
 
-    const getTMItems = () => {
-      fetch('http://localhost:5000/ticketmaster')
-      .then(response => response.json())
-      .then(TMItems => {
-        // console.log("TMItems", TMItems);
-        setTMItems(TMItems);
-      })
-      .catch(err => console.log(err))
-    }
-
-    useEffect(() => {
-      getTMItems();
-    }, []);
-
-    return (
-      <Styles>
-        <Container className="TicketmasterApp">
-          <Row>
-            <Col>
-              <Dropdown/>
-            </Col>
-            <Col align="center">
-              {loading && <LoadingIndicator />}
-              {open && <UpdateSuccessSnackbar />}
-              {openFailed && <UpdateFailedSnackbar />}
-            </Col>
-              <Col>
-                <CheckForUpdates 
-                sourceToUpdate = "TICKETMASTER"
-                onSuccess={getTMItems}
-                setLoading={setLoading}
-                setOpen={setOpen}
-                setOpenFailed={setOpenFailed}/>
-              <Col>
-              </Col>
-            </Col>
-            </Row>
-            <Row>
-              <Col>
-              <h1 style={{margin: "20px 0"}}>Ticketmaster Metal Events</h1>
-              </Col>
-            </Row>
-            <Row>
-            <Col>
-              <TicketmasterDataTable TMItems={TMItems}/>
-            </Col>
-          </Row>
-        </Container>
-      </Styles>
-    )
+  return (
+    <Styles>
+      <Container className="TicketmasterApp">
+        <Row>
+          <Col>
+            <Dropdown/>
+          </Col>
+          <Col align="center">
+            {loading && <LoadingIndicator />}
+            {open && <UpdateSuccessSnackbar />}
+            {openFailed && <UpdateFailedSnackbar />}
+          </Col>
+          <Col>
+            <CheckForUpdates 
+            sourceToUpdate = "TICKETMASTER"
+            onSuccess={getTMItems}
+            setLoading={setLoading}
+            setOpen={setOpen}
+            setOpenFailed={setOpenFailed}/>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+          <h1 style={{margin: "20px 0"}}>Ticketmaster Metal Events</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <TicketmasterDataTable TMItems={TMItems}/>
+          </Col>
+        </Row>
+      </Container>
+    </Styles>
+  )
 }

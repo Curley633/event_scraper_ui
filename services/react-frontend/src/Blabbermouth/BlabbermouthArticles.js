@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Spinner, Alert  } from 'reactstrap';
+import { Container, Row, Col, Spinner  } from 'reactstrap';
 import BlabbermouthDT from '../Blabbermouth/BlabbermouthDT'
 import Dropdown from '../components/Dropdown';
-import styled from 'styled-components';
-import Snackbar from '@material-ui/core/Snackbar';
 import CheckForUpdates from '../components/CheckForUpdates';
-
-const Styles = styled.div`
-text-align: left;
-`;
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
+import CheckIcon from '@material-ui/icons/Check';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
 export function BlabbermouthArticles() {
   const [BMItems, setBMItems] = useState([]);
@@ -24,35 +22,35 @@ export function BlabbermouthArticles() {
     )
   };
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-    setOpenFailed(false);
-  };
+  const UpdateFailedSnackbar = () => {
+    console.log("in Failure Alert");
+    return (
+      <Snackbar open={openFailed} autoHideDuration={6000} onClose={handleClose}>
+        <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="error">
+          Oops! Click "Check For Updates" again
+        </Alert>
+      </Snackbar>
+    );
+  }
 
   const UpdateSuccessSnackbar = () => {
     console.log("In success Alert");
     return (
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} color="primary">
+        <Alert icon={<CheckIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="success">
           Page is Up to Date!
         </Alert>
       </Snackbar>
     );
   }
 
-  const UpdateFailedSnackbar = () => {
-    console.log("in Failure Alert");
-    return (
-      <Snackbar openFailed={openFailed} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="danger">
-          Problem Checking for updates, Please Click "Check For Updates"!
-        </Alert>
-      </Snackbar>
-    );
-  }
+  const handleClose = (_event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setOpenFailed(false);
+  };
 
   const getBMItems = () => {
     fetch('http://localhost:5000/blabbermouth')
@@ -64,44 +62,40 @@ export function BlabbermouthArticles() {
     .catch(err => console.log(err));
   };
 
-    useEffect(() => {
-      getBMItems();
-    }, []);
+  useEffect(() => {
+    getBMItems();
+  }, []);
 
-    return (
-      <Styles>
-        <Container className="BlabbermouthApp">
-          <Row>
-            <Col>
-              <Dropdown/>
-            </Col>
-            <Col align="center">
-              {loading && <LoadingIndicator />}
-              {open && <UpdateSuccessSnackbar />}
-              {openFailed && <UpdateFailedSnackbar />}
-            </Col>
-            <Col>
-              <CheckForUpdates 
-              sourceToUpdate="BLABBERMOUTH" 
-              onSuccess={getBMItems}
-              setLoading={setLoading}
-              setOpen={setOpen}
-              setOpenFailed={setOpenFailed}/>
-            <Col>
-            </Col>
-            </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h1 style={{margin: "20px 0"}}>Blabbermouth News</h1>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <BlabbermouthDT BMItems={BMItems}/>
-              </Col>
-            </Row>
-        </Container>
-      </Styles>
-    );
+  return (
+    <Container className="BlabbermouthApp">
+      <Row>
+        <Col>
+          <Dropdown/>
+        </Col>
+        <Col align="center">
+          {loading && <LoadingIndicator />}
+          {openFailed && <UpdateFailedSnackbar />}
+          {open && <UpdateSuccessSnackbar />}
+        </Col>
+        <Col>
+          <CheckForUpdates 
+          sourceToUpdate="BLABBERMOUTH" 
+          onSuccess={getBMItems}
+          setLoading={setLoading}
+          setOpen={setOpen}
+          setOpenFailed={setOpenFailed}/>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h1 style={{margin: "20px 0"}}>Blabbermouth News</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BlabbermouthDT BMItems={BMItems}/>
+        </Col>
+      </Row>
+    </Container>
+  );
 }

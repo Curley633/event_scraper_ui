@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "reactstrap";
 
 const appendedURL = "api/json";
@@ -15,6 +15,7 @@ var count = 0;
 
 const CheckForUpdates = props => {
   const { sourceToUpdate, onSuccess, setLoading, setOpen, setOpenFailed } = props;
+  const [ disableButton, setDisableButton ] = useState(true);
 
   var triggerBuildApi =
     "http://206.189.165.104:8080/view/All/job/run_web_scrapers_test/buildWithParameters?SCRAPER_SOURCE=" +
@@ -24,6 +25,7 @@ const CheckForUpdates = props => {
 
   async function triggerJenkinsBuild() {
     setLoading(true);
+    setDisableButton(!disableButton);
 
     headers.append("Authorization", "Basic " + btoa(username + ":" + password));
       (requestQueueUrl = await fetch(proxyurl + triggerBuildApi, {
@@ -37,6 +39,7 @@ const CheckForUpdates = props => {
         .catch(function(err) {
           console.log("Fetch Error :-S", err);
           setLoading(false);
+          setDisableButton(disableButton);
         }));
     getBuildUrl();
   }
@@ -68,6 +71,7 @@ const CheckForUpdates = props => {
     })
     .catch(function(err) {
       console.log("Fetch Error :-S", err);
+      setDisableButton(disableButton);
       setLoading(false);
     });
   }
@@ -88,6 +92,7 @@ const CheckForUpdates = props => {
         jobResult = data.result;
         if (jobResult === "FAILURE") {
           console.log("Result: ", jobResult);
+          setDisableButton(disableButton);
           setLoading(false);
           setOpenFailed(true);
           return;
@@ -105,9 +110,13 @@ const CheckForUpdates = props => {
             console.log("SUCCESS - Calling Component");
             setLoading(false);
             setOpen(true);
+            setDisableButton(disableButton);
+            if(sourceToUpdate === "ALL") {
+              return;
+            } else {
             onSuccess();
             return;
-            }
+            }}
           } else {
             count++;
             if (count <= 1) {
@@ -120,17 +129,17 @@ const CheckForUpdates = props => {
               console.log("SUCCESS - Calling Component", count);
               setLoading(false);
               setOpen(true);
+              setDisableButton(disableButton);
               onSuccess();
             }
-          }          
-        }
+          }
+        }});
       });
-    });
     await Promise.all([requestQueueUrl, requestBuildUrl, requestJobResult]);
   }
 
   return (
-    <Button className="float-right" toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
+    <Button className="float-right" disabled={!disableButton} toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
   );
 };
 

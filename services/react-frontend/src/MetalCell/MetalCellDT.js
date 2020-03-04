@@ -1,16 +1,28 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import MetalCellMp3Modal from './MetalCellMp3Modal';
 
 export default class MetalCellDT extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       showModal: false,
-    }
+      MetalCellItems: [],
+      visible: 5,
+      error: false,
+      show: false
+    };
+    this.loadMore = this.loadMore.bind(this);
   }
 
-  state = { show: false };
+  loadMore() {
+    this.setState((prev) => {
+      return{visible: prev.visible + 5};
+    });
+  }
+
+  // state = { show: false };
 
   showModal = () => {
     this.setState({ 
@@ -36,23 +48,29 @@ export default class MetalCellDT extends Component {
             </MetalCellMp3Modal>
            </td>
         </tr>
-      )
+      );
     })
 
     return (
-      <Table responsive hover>
-        <thead>
-          <tr>
-            <th>Episode</th>
-            <th>Date</th>
-            <th>Duration</th>
-            <th>Listen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {MetalCellItems}
-        </tbody>
-      </Table>
+      <div>
+        <Table responsive hover>
+          <thead>
+            <tr>
+              <th>Episode</th>
+              <th>Date</th>
+              <th>Duration</th>
+              <th>Listen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {MetalCellItems}
+          </tbody>
+        </Table>
+        {this.state.visible < this.props.MetalCellItems.length &&
+          <Button variant="primary" size="lg" onClick={this.loadMore} type="button" block>Load More</Button>
+        }
+        <br/>
+      </div>
     )
   }
 }

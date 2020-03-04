@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "reactstrap";
 import DMEDataTable from "../DME/DMEDataTable";
-import styled from "styled-components";
 import Dropdown from "../components/Dropdown";
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import CheckForUpdates from "../components/CheckForUpdates";
 import CheckIcon from '@material-ui/icons/Check';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-
-const Styles = styled.div`
-  // text-align: left;
-`;
 
 export function DMEEvents() {
 
@@ -34,7 +29,7 @@ export function DMEEvents() {
     return (
       <Snackbar open={openFailed} autoHideDuration={6000} onClose={handleClose}>
         <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="error">
-          Oops! Please click "Check For Updates" again!
+          Oops! Click "Check For Updates" again
         </Alert>
       </Snackbar>
     );
@@ -59,7 +54,6 @@ export function DMEEvents() {
     setOpenFailed(false);
   };
 
-
   const getDMEItems = () => {
     // console.log("getDMEItems has been called.");
     fetch("http://localhost:5000/dme")
@@ -76,35 +70,33 @@ export function DMEEvents() {
   }, []);
 
   return (
-    <Styles>
-      <Container className="DMEApp">
-        <Row>
-          <Col>
-            <Dropdown />
-          </Col>
-          <Col align="center">
-            {loading && <LoadingIndicator />}
-            {openFailed && <UpdateFailedSnackbar />}
-            {open && <UpdateSuccessSnackbar />}
-          </Col>
-          <Col>
-            <CheckForUpdates
-            sourceToUpdate="DME"
-            onSuccess={getDMEItems}
-            setLoading={setLoading}
-            setOpen={setOpen}
-            setOpenFailed={setOpenFailed}/>
-          </Col>
-        </Row>
-        <Row>
-          <h1 align="left"style={{ margin: "20px 0" }}>DME Events</h1>
-        </Row>
-        <Row>
-          <Col>
-            <DMEDataTable DMEItems={DMEItems} />
-          </Col>
-        </Row>
-      </Container>
-    </Styles>
+    <Container className="DMEApp">
+      <Row>
+        <Col>
+          <Dropdown />
+        </Col>
+        <Col align="center">
+          {loading && <LoadingIndicator />}
+          {openFailed && <UpdateFailedSnackbar />}
+          {open && <UpdateSuccessSnackbar />}
+        </Col>
+        <Col>
+          <CheckForUpdates
+          sourceToUpdate="DME"
+          onSuccess={getDMEItems}
+          setLoading={setLoading}
+          setOpen={setOpen}
+          setOpenFailed={setOpenFailed}/>
+        </Col>
+      </Row>
+      <Row>
+        <h1 align="left"style={{ margin: "20px 0" }}>DME Events</h1>
+      </Row>
+      <Row>
+        <Col>
+          <DMEDataTable DMEItems={DMEItems} />
+        </Col>
+      </Row>
+    </Container>
   );
 }

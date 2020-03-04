@@ -26,7 +26,7 @@ const getTicketmasterData = (request, response) => {
 }
 
 const getBlabbermouthData = (request, response) => {
-  pool.query('SELECT * FROM blabbermouth_news_article_table ORDER BY index ASC', (error, results) => {
+  pool.query('SELECT * FROM blabbermouth_news_article_table ORDER BY index ASC LIMIT 100', (error, results) => {
     if (error) {
       throw error
     }
