@@ -23,8 +23,12 @@ export default class BlabbermouthDT extends Component {
     const BMItems = this.props.BMItems.slice(0,this.state.visible).map(BMItem => {
       return (
         <tr key={BMItem.index}>
-          <th scope="row">{BMItem.index}</th>
-          <td>{BMItem.title}</td>
+          <th scope="row">{BMItem.index}
+          </th>
+          <td>{BMItem.title}
+          </td>
+          <td>{BMItem.date}
+          </td>
           <td>
             <a href={BMItem.link}>Read it..</a>
           </td>
@@ -38,6 +42,7 @@ export default class BlabbermouthDT extends Component {
             <tr>
               <th></th>
               <th>Headline</th>
+              <th>Date</th>
               <th>Link</th>
             </tr>
           </thead>
