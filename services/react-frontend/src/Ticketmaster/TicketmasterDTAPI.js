@@ -7,7 +7,7 @@ export default class TicketmasterDTAPI extends Component {
 
     this.state = {
       TMItems: {},
-      visible: 30,
+      visible: 10,
       error: false,
     };
     this.loadMore = this.loadMore.bind(this);
@@ -22,49 +22,14 @@ export default class TicketmasterDTAPI extends Component {
   render() {
     const TMItems = this.props.TMItems.slice(0, this.state.visible).map(TMItem => {
 
-    var artist = [];
-    var eventDate = [];
-    var eventLink = [];
-    var eventStatus = [];
-    var eventPrice = [];
-
-    var eventsArray = TMItems;
-    console.log(eventsArray)
-      for (var i in eventsArray) {
-        artist = eventsArray[i].name;
-        eventLink = eventsArray[i].url;
-        console.log(artist);
-        console.log(eventLink)
-
-        for(var ij in eventsArray[i]) {
-          eventDate = eventsArray[i].dates.start.localDate;
-          console.log(eventDate)
-        }
-        for(var ji in eventsArray[i]) {
-          eventStatus = eventsArray[i].dates.status.code;
-          console.log(eventStatus)
-        }
-        
-        var priceArrays = eventsArray[i].priceRanges;
-        for(var jj in priceArrays) {
-          if(priceArrays[0].type === "standard including fees") {
-            eventPrice = priceArrays[0]['min'];
-            break;
-          } else {
-            eventPrice = priceArrays[1]['min'];
-            break;
-          }
-        }
-        console.log(eventPrice)
-      }
-    
       return (
-        <tr key={TMItem.artist}>
-          <th scope="row">{}</th>
+        <tr key={TMItem.eventLink}>
           <td>{TMItem.artist}</td>
           <td>{TMItem.eventDate}</td>
-          <td>{TMItem.eventPrice}</td>
-          <td>{TMItem.eventLink}</td>
+          <td>{TMItem.eventVenue}</td>
+          <td>{TMItem.location}</td>
+          <td>{TMItem.currency} {TMItem.eventPrice}</td>
+          <td>{TMItem.eventStatus}</td>
           <td>
             <a href={TMItem.eventLink}>{TMItem.artist}</a>
           </td>
@@ -77,12 +42,13 @@ export default class TicketmasterDTAPI extends Component {
         <Table responsive hover>
           <thead>
             <tr>
-              <th> </th>
               <th>Artist/s</th>
-              {/* <th>Location</th> */}
-              <th>Month</th>
-              <th>Day</th>
-              <th>Tickets</th>
+              <th>Date</th>
+              <th>Venue</th>
+              <th>City</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Link</th>
             </tr>
           </thead>
           <tbody>

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "reactstrap";
 
-const appendedURL = "api/json";
-const username = "james";
-const password = "curley";
-const proxyurl = "http://cors-anywhere.herokuapp.com/";
+const APPENDED_URL = "api/json";
+const JENKINS_USER = "james";
+const JENKINS_PWORD = "curley";
+const PROXY_URL = "http://cors-anywhere.herokuapp.com/";
+const JENKINS_TOKEN = "g44ygrf696fywo74ehfbkyfy66";
+const JENKINS_HOST = "http://206.189.165.104:8080/";
 var queueUrl;
 var requestBuildUrl;
 var requestQueueUrl;
@@ -15,25 +17,25 @@ var count = 0;
 
 const CheckForUpdates = props => {
   const { sourceToUpdate, onSuccess, setLoading, setOpen, setOpenFailed } = props;
-  const [ disableButton, setDisableButton ] = useState(true);
+  const [ disableButton, setDisableButton ] = useState();
 
-  var triggerBuildApi =
-    "http://206.189.165.104:8080/view/All/job/run_web_scrapers_test/buildWithParameters?SCRAPER_SOURCE=" +
-    sourceToUpdate +
-    "&token=g44ygrf696fywo74ehfbkyfy66";
+  var triggerBuildApi = PROXY_URL + JENKINS_HOST +
+    "view/All/job/run_web_scrapers_test/buildWithParameters?SCRAPER_SOURCE=" +
+    sourceToUpdate + "&token=" + JENKINS_TOKEN;
+
   var headers = new Headers();
 
   async function triggerJenkinsBuild() {
     setLoading(true);
     setDisableButton(!disableButton);
 
-    headers.append("Authorization", "Basic " + btoa(username + ":" + password));
-      (requestQueueUrl = await fetch(proxyurl + triggerBuildApi, {
-        method: "GET",
+    headers.append("Authorization", "Basic " + btoa(JENKINS_USER + ":" + JENKINS_PWORD));
+      (requestQueueUrl = await fetch( triggerBuildApi, {
+        method: "POST",
         headers: headers
       })
         .then(function(getQueueUrl) {
-          queueUrl = getQueueUrl.headers.get("location") + appendedURL;
+          queueUrl = getQueueUrl.headers.get("location") + APPENDED_URL;
           console.log(queueUrl);
         })
         .catch(function(err) {
@@ -45,7 +47,7 @@ const CheckForUpdates = props => {
   }
 
   async function getBuildUrl() {
-    requestBuildUrl = await fetch(proxyurl + queueUrl, {
+    requestBuildUrl = await fetch(PROXY_URL + queueUrl, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     })
@@ -63,7 +65,7 @@ const CheckForUpdates = props => {
             getBuildUrl();
           }, 1500);
         } else {
-          buildUrl = data.executable.url + appendedURL;
+          buildUrl = data.executable.url + APPENDED_URL;
           console.log(buildUrl);
           getJobResult();
         }
@@ -77,7 +79,7 @@ const CheckForUpdates = props => {
   }
 
   async function getJobResult() {
-    requestJobResult = await fetch(proxyurl + buildUrl, {
+    requestJobResult = await fetch(PROXY_URL + buildUrl, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     }).then(function(response) {
@@ -139,7 +141,7 @@ const CheckForUpdates = props => {
   }
 
   return (
-    <Button className="float-right" disabled={!disableButton} toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
+    <Button className="float-right" disabled={disableButton} toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>
   );
 };
 

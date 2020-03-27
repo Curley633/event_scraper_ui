@@ -3,10 +3,6 @@ import TicketmasterDTAPI from '../Ticketmaster/TicketmasterDTAPI'
 import { Container, Row, Col } from 'reactstrap';
 import Dropdown from '../components/Dropdown';
 import styled from 'styled-components';
-// import Snackbar from '@material-ui/core/Snackbar';
-// import Alert from '@material-ui/lab/Alert';
-// import CheckIcon from '@material-ui/icons/Check';
-// import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
 const Styles = styled.div`
 text-align: left;
@@ -26,46 +22,41 @@ export function TicketmasterEventsAPI() {
     .then(response => response.json())
     .then(TMItems => {
 
-      var eventsArray = TMItems._embedded.events;
-      // console.log(eventsArray)
+      const eventsArray = TMItems._embedded.events;
+      
+      const listingData = eventsArray.map(event => {
+        const ret = {};
 
-      var artist = [];
-      var eventDate = [];
-      var eventLink = [];
-      var eventStatus = [];
-      var eventPrice = [];
+        ret.artist = event.name;
+        ret.eventLink = event.url;
 
-      for (var i in eventsArray) {
-        artist = eventsArray[i].name;
-        eventLink = eventsArray[i].url;
-        console.log(artist);
-        console.log(eventLink)
-
-        for(var ij in eventsArray[i]) {
-          eventDate = eventsArray[i].dates.start.localDate;
-          console.log(eventDate)
+        if(event.dates.start.localDate) {
+          ret.eventDate = event.dates.start.localDate;
+        } else {
+          ret.eventDate = "Date TBD";
         }
 
-        for(var ji in eventsArray[i]) {
-          eventStatus = eventsArray[i].dates.status.code;
-          console.log(eventStatus)
-        }
+        ret.eventVenue = event._embedded.venues[0].name;
+        ret.location = event._embedded.venues[0].city.name;
+        ret.eventStatus = event.dates.status.code;
         
-        var priceArrays = eventsArray[i].priceRanges;
+        const { priceRanges } = event;
 
-        for(var jj in priceArrays) {
-          if(priceArrays[0].type === "standard including fees") {
-            eventPrice = priceArrays[0]['min'];
-            break;
+        if(priceRanges) {
+          if (priceRanges[0].type === "standard including fees") {
+            ret.currency = priceRanges[0].currency;
+            ret.eventPrice = priceRanges[0].min;
           } else {
-            eventPrice = priceArrays[1]['min'];
-            break;
+            ret.currency = priceRanges[1].currency;
+            ret.eventPrice = priceRanges[1].min;
           }
-        }
-        console.log(eventPrice)
-      }
-      const listingData = {artist, eventDate, eventLink, eventPrice}
-      console.log(listingData)
+        } else {
+            ret.eventPrice = "Check event link for price";
+          }
+
+        return ret;
+      });
+      console.log("----listingData", listingData);
 
       setTMItems(listingData);
     })
@@ -84,14 +75,12 @@ export function TicketmasterEventsAPI() {
             <Dropdown/>
           </Col>
           <Col align="center">
-            {/* {loading && <LoadingIndicator />} */}
-            {/* {open && <UpdateSuccessSnackbar />} */}
-            {/* {openFailed && <UpdateFailedSnackbar />} */}
           </Col>
         </Row>
         <Row>
           <Col>
           <h1 style={{margin: "20px 0"}}>Ticketmaster Metal Events</h1>
+          <h6 style={{margin: "20px 0"}}>*Price includes booking fee</h6>
           </Col>
         </Row>
         <Row>

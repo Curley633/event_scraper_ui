@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Home } from './Home'
 import { DMEEvents } from './DME/DMEEvents'
-import { TicketmasterEvents } from './Ticketmaster/TicketmasterEvents';
+import { TicketmasterEventsAPI } from './Ticketmaster/TicketmasterAPI';
 import { BlabbermouthArticles } from './Blabbermouth/BlabbermouthArticles';
 import { MetalCellPodcasts } from './MetalCell/MetalCellPodcasts';
 import { About } from './About'
@@ -27,7 +27,7 @@ class App extends Component {
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
               <Route path="/dme" component={DMEEvents} />
-              <Route path="/ticketmaster" component={TicketmasterEvents} />
+              <Route path="/ticketmaster" component={TicketmasterEventsAPI} />
               <Route path="/blabbermouth" component={BlabbermouthArticles} />
               <Route path="/metalcell" component={MetalCellPodcasts} />
               <Route component={NoMatch} />
