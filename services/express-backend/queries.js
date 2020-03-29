@@ -1,23 +1,15 @@
 const Pool = require('pg').Pool
+require('dotenv').config()
 const pool = new Pool({
-  user: 'postgres',
-  host: '206.189.165.104',
-  database: 'EventScraper',
-  password: 'curley',
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PWORD,
   port: 5432,
 })
 
 const getMonroesData = (request, response) => {
   pool.query('SELECT * FROM monroes_event_table ORDER BY index ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
-}
-
-const getTicketmasterData = (request, response) => {
-  pool.query('SELECT * FROM ticketmaster_event_table ORDER BY index ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -55,7 +47,6 @@ const getMetalCellData = (request, response) => {
 
 module.exports = {
   getMonroesData,
-  getTicketmasterData,
   getBlabbermouthData,
   getDMEData,
   getMetalCellData,
