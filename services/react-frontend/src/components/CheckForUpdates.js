@@ -7,13 +7,6 @@ const JENKINS_PWORD = "curley";
 const PROXY_URL = "http://cors-anywhere.herokuapp.com/";
 const JENKINS_TOKEN = "g44ygrf696fywo74ehfbkyfy66";
 const JENKINS_HOST = "http://206.189.165.104:8080/";
-var queueUrl;
-var requestBuildUrl;
-var requestQueueUrl;
-var requestJobResult;
-var buildUrl = "";
-var jobResult;
-var count = 0;
 
 const CheckForUpdates = props => {
   const { sourceToUpdate, onSuccess, setLoading, setOpen, setOpenFailed } = props;
@@ -24,121 +17,107 @@ const CheckForUpdates = props => {
     sourceToUpdate + "&token=" + JENKINS_TOKEN;
 
   var headers = new Headers();
+  headers.append("Authorization", "Basic " + btoa(JENKINS_USER + ":" + JENKINS_PWORD));
 
   async function triggerJenkinsBuild() {
     setLoading(true);
     setDisableButton(!disableButton);
-
-    headers.append("Authorization", "Basic " + btoa(JENKINS_USER + ":" + JENKINS_PWORD));
-      (requestQueueUrl = await fetch( triggerBuildApi, {
+    try {
+      const response = await fetch( triggerBuildApi, {
         method: "POST",
         headers: headers
       })
-        .then(function(getQueueUrl) {
-          queueUrl = getQueueUrl.headers.get("location") + APPENDED_URL;
-          console.log(queueUrl);
-        })
-        .catch(function(err) {
-          console.log("Fetch Error :-S", err);
+      if (response.status !== 201) {
+          console.log("Problem triggerring job. Status Code: " + response.status);
           setLoading(false);
           setDisableButton(disableButton);
-        }));
-    getBuildUrl();
+          setOpenFailed(true)
+      } else {
+        var queueUrl = await response.headers.get("location") + APPENDED_URL;
+        console.log(queueUrl);
+      }
+    } catch(error) {
+      console.log("Fetch Error :-S", error);
+      setLoading(false);
+      setDisableButton(disableButton);
+      setOpenFailed(true)
+    };
+    getBuildUrl(queueUrl);
   }
 
-  async function getBuildUrl() {
-    requestBuildUrl = await fetch(PROXY_URL + queueUrl, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(function(response) {
-      if (response.status !== 200) {
-        console.log(
-          "Looks like there was a problem. Status Code: " + response.status
-        );
-        return;
+  async function getBuildUrl(queueUrl) {
+    try{
+      const response = await fetch(PROXY_URL + queueUrl, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+      const data = await response.json();
+      console.log(data.why)
+      if (data.why !== null) {
+        setTimeout(() => {
+          getBuildUrl(queueUrl);
+        }, 1000);
+      } else {
+        var buildUrl = data.executable.url + APPENDED_URL;
+        console.log(buildUrl);
+        getJobResult(buildUrl);
       }
-      response.json().then(function(data) {
-        console.log(data.why);
-        if (data.why !== null) {
-          setTimeout(() => {
-            getBuildUrl();
-          }, 1500);
-        } else {
-          buildUrl = data.executable.url + APPENDED_URL;
-          console.log(buildUrl);
-          getJobResult();
-        }
-      });
-    })
-    .catch(function(err) {
-      console.log("Fetch Error :-S", err);
+    } catch(error) {
+      console.log("Fetch Error :-S", error);
       setDisableButton(disableButton);
       setLoading(false);
-    });
+      setOpenFailed(true)
+    };
   }
 
-  async function getJobResult() {
-    requestJobResult = await fetch(PROXY_URL + buildUrl, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    }).then(function(response) {
-      if (response.status !== 200) {
-        console.log(
-          "Looks like there was a problem. Status Code: " + response.status
-        );
+  async function getJobResult(buildUrl) {
+    try {
+      const response = await fetch(PROXY_URL + buildUrl, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+      const data = await response.json();
+      if(response.status !== 200) {
+        console.log("Problem fetching build url. Status Code: " + response.status);
         return;
       }
-      response.json().then(function(data) {
-        console.log("Data.Result: ", data.result)
-        jobResult = data.result;
-        if (jobResult === "FAILURE") {
-          console.log("Result: ", jobResult);
-          setDisableButton(disableButton);
-          setLoading(false);
-          setOpenFailed(true);
-          return;
-        } else {
-          if (sourceToUpdate === "BLABBERMOUTH" || sourceToUpdate === "METALCELL" || sourceToUpdate === "ALL") {
-            console.log("Detecting BM/MetalCell/ALL");
-            count++;
-            if (count <= 2) {
-              console.log("callback BLABBERMOUTH or METALCELL");
-              setTimeout(() => {
-                getJobResult();
-              }, 5000);
-              console.log("BM timer done");
-            } else {
-            console.log("SUCCESS - Calling Component");
-            setLoading(false);
-            setOpen(true);
-            setDisableButton(disableButton);
-            if(sourceToUpdate === "ALL") {
-              return;
-            } else {
-            onSuccess();
-            return;
-            }}
-          } else {
-            count++;
-            if (count <= 1) {
-              console.log("callback to allow PG to update");
-              setTimeout(() => {
-                getJobResult();
-              }, 1000);
-              console.log("DME timer done");
-            } else {
-              console.log("SUCCESS - Calling Component", count);
-              setLoading(false);
-              setOpen(true);
-              setDisableButton(disableButton);
-              onSuccess();
-            }
-          }
-        }});
-      });
-    await Promise.all([requestQueueUrl, requestBuildUrl, requestJobResult]);
+      var jobResult = data.result;
+      console.log(jobResult)
+      processJobResult(buildUrl, jobResult)
+
+    } catch(error) {
+      console.log("Fetch Error :-S", error);
+      setDisableButton(disableButton);
+      setLoading(false);
+      setOpenFailed(true)
   }
+}
+
+  function processJobResult(buildUrl, jobResult) {
+    console.log("In processJobRes func: ", jobResult)
+
+      if(jobResult === null) {
+        console.log("NULL?: ", jobResult)
+        setTimeout(() => {
+          getJobResult(buildUrl);
+        }, 1000);
+      }
+
+      if (jobResult === "FAILURE") {
+        console.log("if Failure: ", jobResult)
+        setDisableButton(disableButton);
+        setLoading(false);
+        setOpenFailed(true);
+      }
+
+      if(jobResult === "SUCCESS") {
+        console.log("if Success: ", jobResult);
+        setLoading(false);
+        setOpen(true);
+        setDisableButton(disableButton);
+        onSuccess();
+      }
+  }    
 
   return (
     <Button className="float-right" disabled={disableButton} toggle={"toggle"} color="success" size="m" onClick={() => triggerJenkinsBuild()}>Check for Updates</Button>

@@ -27,7 +27,7 @@ export function BlabbermouthArticles() {
     return (
       <Snackbar open={openFailed} autoHideDuration={6000} onClose={handleClose}>
         <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="error">
-          Oops! Click "Check For Updates" again
+          Oops! Try Checking again
         </Alert>
       </Snackbar>
     );
@@ -38,7 +38,7 @@ export function BlabbermouthArticles() {
     return (
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         <Alert icon={<CheckIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="success">
-          Page is Up to Date!
+          Page is Up to Date
         </Alert>
       </Snackbar>
     );

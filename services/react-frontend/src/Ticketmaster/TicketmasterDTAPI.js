@@ -1,6 +1,20 @@
 import React, { Component } from 'react'
 import { Table, Button } from 'reactstrap';
 
+function formatStatusText(code) {
+  const map = {
+    onsale: "On sale",
+    cancelled: "Cancelled",
+    rescheduled: "Rescheduled",
+    postponed: "Postponed"
+  };
+
+  return (
+    map[code] || code.charAt(0).toUpperCase() + code.toLowerCase().slice(1)
+  );
+}
+
+
 export default class TicketmasterDTAPI extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +43,7 @@ export default class TicketmasterDTAPI extends Component {
           <td>{TMItem.eventVenue}</td>
           <td>{TMItem.location}</td>
           <td>{TMItem.currency} {TMItem.eventPrice}</td>
-          <td>{TMItem.eventStatus}</td>
+          <td>{formatStatusText(TMItem.eventStatus)}</td>
           <td>
             <a href={TMItem.eventLink}>{TMItem.artist}</a>
           </td>

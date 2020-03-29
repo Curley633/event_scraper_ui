@@ -16,7 +16,6 @@ export function DMEEvents() {
   const [openFailed, setOpenFailed] = useState(false);
 
   const LoadingIndicator = () => {
-    console.log("In Loading Indicator");
     return (
       <div>
         <Spinner style={{ width: '3rem', height: '3rem' }}  color="secondary"/>{' '}
@@ -25,22 +24,20 @@ export function DMEEvents() {
   };
   
   const UpdateFailedSnackbar = () => {
-    console.log("in Failure Alert");
     return (
       <Snackbar open={openFailed} autoHideDuration={6000} onClose={handleClose}>
         <Alert icon={<ErrorOutlineIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="error">
-          Oops! Click "Check For Updates" again
+          Oops! Try Checking again
         </Alert>
       </Snackbar>
     );
   }
 
   const UpdateSuccessSnackbar = () => {
-    console.log("In success Alert");
     return (
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
         <Alert icon={<CheckIcon fontSize="inherit" />} variant="filled" onClose={handleClose} severity="success">
-          Page is Up to Date!
+          Page is Up to Date
         </Alert>
       </Snackbar>
     );
@@ -55,11 +52,9 @@ export function DMEEvents() {
   };
 
   const getDMEItems = () => {
-    // console.log("getDMEItems has been called.");
     fetch("http://localhost:5000/dme")
     .then(response => response.json())
     .then(DMEItems => {
-      // console.log("DMEItems", DMEItems);
       setDMEItems(DMEItems);
     })
     .catch(err => console.log(err));
