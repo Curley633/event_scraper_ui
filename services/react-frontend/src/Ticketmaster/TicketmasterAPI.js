@@ -3,6 +3,7 @@ import TicketmasterDTAPI from '../Ticketmaster/TicketmasterDTAPI'
 import { Container, Row, Col } from 'reactstrap';
 import Dropdown from '../components/Dropdown';
 import styled from 'styled-components';
+require('dotenv').config();
 
 const Styles = styled.div`
 text-align: left;
