@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import { Button } from "reactstrap";
+require('dotenv').config();
 
 const APPENDED_URL = "api/json";
-const JENKINS_USER = "james";
-const JENKINS_PWORD = "curley";
-const PROXY_URL = "http://cors-anywhere.herokuapp.com/";
-const JENKINS_TOKEN = "g44ygrf696fywo74ehfbkyfy66";
-const JENKINS_HOST = "http://206.189.165.104:8080/";
 
 const CheckForUpdates = props => {
   const { sourceToUpdate, onSuccess, setLoading, setOpen, setOpenFailed } = props;
   const [ disableButton, setDisableButton ] = useState();
 
-  var triggerBuildApi = PROXY_URL + JENKINS_HOST +
+  var triggerBuildApi = process.env.REACT_APP_PROXY_URL + process.env.REACT_APP_JENKINS_HOST +
     "view/All/job/run_web_scrapers_test/buildWithParameters?SCRAPER_SOURCE=" +
-    sourceToUpdate + "&token=" + JENKINS_TOKEN;
+    sourceToUpdate + "&token=" + process.env.REACT_APP_JENKINS_TOKEN;
 
   var headers = new Headers();
-  headers.append("Authorization", "Basic " + btoa(JENKINS_USER + ":" + JENKINS_PWORD));
+  headers.append("Authorization", "Basic " + btoa(process.env.REACT_APP_JENKINS_USER + ":" + process.env.REACT_APP_JENKINS_PWORD));
 
   async function triggerJenkinsBuild() {
     setLoading(true);
     setDisableButton(!disableButton);
+
     try {
       const response = await fetch( triggerBuildApi, {
         method: "POST",
@@ -47,7 +44,7 @@ const CheckForUpdates = props => {
 
   async function getBuildUrl(queueUrl) {
     try{
-      const response = await fetch(PROXY_URL + queueUrl, {
+      const response = await fetch(process.env.REACT_APP_PROXY_URL + queueUrl, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       })
@@ -72,7 +69,7 @@ const CheckForUpdates = props => {
 
   async function getJobResult(buildUrl) {
     try {
-      const response = await fetch(PROXY_URL + buildUrl, {
+      const response = await fetch(process.env.REACT_APP_PROXY_URL + buildUrl, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       })
