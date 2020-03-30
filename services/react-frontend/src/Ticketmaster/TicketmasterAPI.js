@@ -16,7 +16,7 @@ export function TicketmasterEventsAPI() {
   const [TMItems, setTMItems] = useState([]);
 
   useEffect(() => {
-    const url = TM_BASE_URL + '/events?apikey=' + TM_API_KEY + '&includeTBA=yes&includeTBD=yes&includeTest=yes&dmaId=608&genreId=KnvZfZ7vAvt'
+    const url = process.env.REACT_APP_TM_BASE_URL + '/events?apikey=' + process.env.REACT_APP_TM_API_KEY + '&includeTBA=yes&includeTBD=yes&includeTest=yes&dmaId=608&genreId=KnvZfZ7vAvt'
 
     async function getTMItems() {
       fetch(url)
