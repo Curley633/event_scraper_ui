@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path');
 const bodyParser = require('body-parser')
 const db = require('./queries')
-const cors = require('cors')  // allows/disallows cross-site communication
+const cors = require('cors')
 const app = express()
 
 // App Middleware
@@ -22,13 +22,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true,}))
 app.use(cors(corsOptions))
 
-// An api endpoint that returns a short list of items
+// An api endpoint that returns a string
 app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
+    response.json({ info: 'Express' })
   })
+  
 // Sql GET requests from queries.js
 app.get('/monroes', db.getMonroesData)
-app.get('/ticketmaster', db.getTicketmasterData)
 app.get('/blabbermouth', db.getBlabbermouthData)
 app.get('/dme', db.getDMEData)
 app.get('/metalcell', db.getMetalCellData)
