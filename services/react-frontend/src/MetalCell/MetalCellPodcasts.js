@@ -60,7 +60,7 @@ export function MetalCellPodcasts() {
   };
 
   const getMetalCellItems = () => {
-    fetch('http://localhost:5000/metalcell')
+    fetch(process.env.REACT_APP_HOST + ':5000/metalcell')
       .then(response => response.json())
       .then(MetalCellItems => {
         // console.log("MetalCellItems", MetalCellItems);

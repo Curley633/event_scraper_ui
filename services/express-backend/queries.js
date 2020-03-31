@@ -13,6 +13,7 @@ const getMonroesData = (request, response) => {
     if (error) {
       throw error
     }
+    response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
     response.status(200).json(results.rows)
   })
 }
@@ -32,6 +33,7 @@ const getDMEData = (request, response) => {
     if (error) {
       throw error
     }
+    response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
     response.status(200).json(results.rows)
   })
 }
@@ -41,6 +43,7 @@ const getMetalCellData = (request, response) => {
     if (error) {
       throw error
     }
+    response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
     response.status(200).json(results.rows)
   })
 }
