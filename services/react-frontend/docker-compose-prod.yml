@@ -1,11 +1,25 @@
+#the docker compose file version
 version: '3.7'
-
+# you can run multiple services inside one docker compose file
+# define them with their dependencies one after the other
 services:
-
-  react-frontend-prod:
-    container_name: react-frontend-prod
+ # service 1 named react-prod
+  react-prod:
+    # service 1 container name
+    container_name: react
     build:
+      # the context (working directory) is the current directory
+      # change this to the directory containing the dockerfile if in a different place
       context: .
+      # the dockerfile to be run
       dockerfile: Dockerfile-prod
+    volumes:
+      - '.:/react-frontend'
+      - '/react-frontend/node_modules'
+    environment:
+      - NODE_ENV=production
+    # map the exposed port from the underlying service to a port exposed to the outside
+    # in this case  map port 80 exposed by nginx to port 3000 on the outside
+    # to be used to access the container from the outside
     ports:
-      - '80:80'
+      - '3000:80'
