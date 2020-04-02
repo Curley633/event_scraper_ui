@@ -9,14 +9,32 @@ ENV PATH /react-frontend/node_modules/.bin:$PATH
 
 COPY package*.json /react-frontend/
 
-RUN npm install --silent
+RUN npm install --silent \
+&& npm cache clean --force \
+&& npm prune
 
 # Copy rect folder to /app directory
 COPY . /react-frontend
 
 RUN npm run build
 
+#Set up Production Envireonment
+# NGINX Alpine based image
+FROM nginx:alpine
 
+# copy the build folder from react to the root of nginx (www)
+COPY --from=build /react-frontend/build /usr/share/nginx/html
+
+#Remove default nginx conf file to route through react
+RUN rm /etc/nginx/conf.d/default.conf
+
+#Replace with custom one
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+# expose port 80 to the outer world
+EXPOSE 80
+# start nginx 
+CMD ["nginx", "-g", "daemon off;"]
 
 
 

@@ -19,9 +19,9 @@ services:
     build:
       context: ./services/express-backend
       dockerfile: Dockerfile-prod
-    # volumes:
-    #   - './services/express-backend:/app'
-    #   - '/app/node_modules'
+    volumes:
+      - './services/express-backend:/express-backend'
+      - '/express-backend/node_modules'
     ports:
       - 5000:5000
       - 9229:9229
