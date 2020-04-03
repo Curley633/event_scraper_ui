@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            ./deploy.sh "live" "go"
+            bash ./deploy.sh "live" "go"
 workflows:
   version: 2
   deploy:
