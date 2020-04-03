@@ -1,0 +1,19 @@
+#Build Environent
+FROM node:12.2.0-alpine
+
+#set working dir
+WORKDIR /express-backend
+
+COPY package*.json /express-backend/
+
+# add the node_modules folder to $PATH
+ENV PATH /express-backend/node_modules/.bin:$PATH
+
+RUN npm install --silent \
+&& npm cache clean --force \
+&& npm prune
+
+# copy rect folder to /app directory
+COPY . /express-backend
+
+#CMD ["npm", "run", "start:prod"]

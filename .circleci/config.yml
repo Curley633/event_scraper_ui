@@ -1,0 +1,20 @@
+version: 2
+
+jobs:
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            ./deploy.sh "live" "go"
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master
