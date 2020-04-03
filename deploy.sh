@@ -19,8 +19,8 @@ elif [ "$1" == "live" ]
         elif [[ "$2" == "go" ]]
             then
                 echo "Syncing Files"
-                rsync -az --force --delete --progress --exclude-from=rsync_exclude.txt -e \
-                "ssh -i /C/vrworld-scoreboard-key.pem" \
+                rsync -az --force --delete --progress --exclude-from-rsync_exclude.txt -e \
+                #"ssh -i /C/vrworld-scoreboard-key.pem" \
                 ~/project/* \
                 ubuntu@ec2-54-77-155-24.eu-west-1.compute.amazonaws.com:/home/ubuntu/usr/src/event_scraper_ui/ echo "Sync Complete"
         else
