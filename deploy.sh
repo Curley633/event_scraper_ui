@@ -18,11 +18,11 @@ elif [ "$1" == "live" ]
 
         elif [[ "$2" == "go" ]]
             then
-                echo "Running deploy"
+                echo "Syncing Files"
                 rsync -az --force --delete --progress --exclude-from=rsync_exclude.txt -e \
                 "ssh -i /C/vrworld-scoreboard-key.pem" \
                 ~/project/* \
-                ubuntu@ec2-54-77-155-24.eu-west-1.compute.amazonaws.com:/home/ubuntu/usr/src/event_scraper_ui/ echo "Dry Run Complete"
+                ubuntu@ec2-54-77-155-24.eu-west-1.compute.amazonaws.com:/home/ubuntu/usr/src/event_scraper_ui/ echo "Sync Complete"
         else
             echo $ERRORSTRING;
         fi
@@ -32,4 +32,4 @@ time docker-compose -f docker-compose-prod.yml up -d || exit 1
 
 docker system prune --force -a
 
-sudo service jenkins restart
+#sudo service jenkins restart
