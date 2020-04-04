@@ -5,6 +5,9 @@ jobs:
     machine:
       enabled: true
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "dd:53:41:c5:f1:be:60:a8:8b:60:23:ac:b3:5c:8b:f6"
       - checkout
       - run:
           name: Deploy
