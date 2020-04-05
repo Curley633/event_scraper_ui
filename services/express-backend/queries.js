@@ -33,7 +33,8 @@ const getDMEData = (request, response) => {
     if (error) {
       throw error
     }
-    response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+    response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Lax", "Access-Control-Allow-Origin","*");
+    console.log(request.protocol + request.get('host') + request.originalUrl)
     response.status(200).json(results.rows)
   })
 }

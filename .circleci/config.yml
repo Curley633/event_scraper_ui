@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            bash ./deploy.sh "live" "go"
+            bash ./deploy_staging.sh "live" "go"
 workflows:
   version: 2
   deploy:

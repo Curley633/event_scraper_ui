@@ -1,10 +1,10 @@
 const express = require('express')
-const path = require('path');
 const bodyParser = require('body-parser')
 const db = require('./queries')
 const cors = require('cors')
 const app = express()
 
+// App Middleware
 const whitelist = [process.env.HOST + ':3000']
 const corsOptions = {
   origin: function (origin, callback) {
@@ -21,8 +21,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true,}))
 app.use(cors(corsOptions))
 
-// An api endpoint that returns a string
+// An api endpoint that returns a test string 
 app.get('/', (request, response) => {
+  console.log(request.protocol + request.get('host') + request.originalUrl) //Prints url server is running on
     response.json({ info: 'Express' })
   })
   

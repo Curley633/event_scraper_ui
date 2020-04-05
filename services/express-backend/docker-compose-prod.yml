@@ -1,14 +1,16 @@
 version: '3'
 
 services:
-  express-container:
-    build:
-      context: .
-      dockerfile: Dockerfile-prod
-    #volumes:
-      #- .:/home/james/var/www/event_scraper_ui/services/express-backend/
-      #- /express-backend/node_modules
-    ports:
-      - 5000:5000
-      - 9229:9229
-    command: npm start
+  container_name: express-prod
+  build:
+    context: .
+    dockerfile: Dockerfile-prod
+  volumes:
+    - './express-backend:/express-backend'
+    - '/express-backend/node_modules'
+  environment:
+    - NODE_ENV=production
+  ports:
+    - 5000:5000
+    - 9229:9229
+  command: npm start

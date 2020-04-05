@@ -4,10 +4,10 @@ FROM node:12.2.0-alpine
 #set working dir
 WORKDIR /express-backend
 
-COPY package*.json /express-backend/
-
 # add the node_modules folder to $PATH
 ENV PATH /express-backend/node_modules/.bin:$PATH
+
+COPY package*.json /express-backend/
 
 RUN npm install --silent \
 && npm cache clean --force \
