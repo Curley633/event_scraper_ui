@@ -52,7 +52,7 @@ export function DMEEvents() {
   };
 
   const getDMEItems = () => {
-    fetch(process.env.REACT_APP_DB_HOST + ':5000/dme')
+    fetch(process.env.REACT_APP_HOST + ':5000/dme')
     .then(response => response.json())
     .then(DMEItems => {
       setDMEItems(DMEItems);

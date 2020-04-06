@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  deploy:
+  staging:
     machine:
       enabled: true
     steps:
@@ -10,14 +10,33 @@ jobs:
             - "dd:53:41:c5:f1:be:60:a8:8b:60:23:ac:b3:5c:8b:f6"
       - checkout
       - run:
-          name: Deploy
+          name: Deploy To Staging
           command: |
             bash ./deploy_staging.sh "live" "go"
+  production:
+    machine:
+      enabled: true
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "50:6e:1f:7b:9e:3e:9b:d8:6f:f5:88:d5:28:f2:de:df"
+      - checkout
+      - run:
+          name: Deploy To Production
+          command: |
+            bash ./deploy.sh "live" "go"
 workflows:
   version: 2
-  deploy:
+  build-test-and-approval-deploy:
     jobs:
-      - deploy:
+      - staging
+      - hold: # <<< A job that will require manual approval in the CircleCI web application.
+          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+          requires:
+            - staging
+      - production:
+          requires:
+            - hold
           filters:
             branches:
               only: master
