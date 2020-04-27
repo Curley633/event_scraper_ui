@@ -30,10 +30,7 @@ elif [ "$1" == "live" ]
                 ~/project/* \
                 ubuntu@ec2-54-77-155-24.eu-west-1.compute.amazonaws.com:/home/ubuntu/usr/src/event_scraper_ui/ && echo "Sync Complete" || exit 1
 
-                ssh ubuntu@ec2-54-77-155-24.eu-west-1.compute.amazonaws.com "cd usr/src/event_scraper_ui 
-                                                                             && time docker-compose -f docker-compose-prod.yml up -d --build 
-                                                                             && docker system prune --force -a && docker volume prune --force
-                                                                             && echo 'Docker-Compose-Prod Complete'" || exit 1
+                ssh ubuntu@ec2-54-77-155-24.eu-west-1.compute.amazonaws.com "cd usr/src/event_scraper_ui && time docker-compose -f docker-compose-prod.yml up -d --build && docker system prune --force -a && docker volume prune --force && echo 'Docker-Compose-Prod Complete'" || exit 1
 
                 echo "Deploy to Staging VM Complete"
 

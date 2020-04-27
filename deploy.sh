@@ -28,11 +28,7 @@ elif [ "$1" == "live" ]
                 ~/project/* \
                 james@206.189.165.104:/home/james/var/www/event_scraper_ui/ && echo "Prod Sync Complete" || exit 1
 
-                ssh james@206.189.165.104 "cd var/www/event_scraper_ui 
-                                           && time docker-compose -f docker-compose-prod.yml up -d --build 
-                                           && docker system prune --force -a && docker volume prune --force 
-                                           && sudo service jenkins restart 
-                                           && echo 'Docker-Compose-Prod Complete'" || exit 1
+                ssh james@206.189.165.104 "cd var/www/event_scraper_ui && time docker-compose -f docker-compose-prod.yml up -d --build && docker system prune --force -a && docker volume prune --force && sudo service jenkins restart && echo 'Docker-Compose-Prod Complete'" || exit 1
 
         else
             echo $ERRORSTRING;
