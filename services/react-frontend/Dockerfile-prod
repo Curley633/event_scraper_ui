@@ -14,7 +14,7 @@ RUN npm install --silent \
 && npm cache clean --force \
 && npm prune
 
-# Copy rect folder to /app directory
+# Copy react folder to /app directory
 COPY . /react-frontend
 
 RUN npm run build

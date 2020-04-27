@@ -1,23 +1,27 @@
 # base image
 FROM node:12.2.0-alpine
 
-# Create a directory where our app will be placed
-RUN mkdir -p /app
+# Create a directory where our react-frontend will be placed
+RUN mkdir -p /react-frontend
 
 # set working directory
-WORKDIR /app
+WORKDIR /react-frontend
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# add `/react-frontend/node_modules/.bin` to $PATH
+ENV PATH /react-frontend/node_modules/.bin:$PATH
 
 # Copy dependency definitions
-COPY package.json /app/package.json
+COPY package*.json /react-frontend/
 
-# install and cache app dependencies
-RUN npm install --silent && \
-npm cache clean --force
-RUN npm install react-scripts@3.0.1 -g --silent && \
-npm install bootstrap --save && npm install --save reactstrap react react-dom
+# install and cache react-frontend dependencies
+RUN npm install --silent \
+&& npm cache clean --force \
+&& npm prune
 
-# start app
+COPY . /react-frontend
+
+RUN npm install react-scripts@3.0.1 -g --silent \
+&& npm install --save reactstrap react react-dom
+
+# start react-frontend
 CMD ["npm", "start"]
