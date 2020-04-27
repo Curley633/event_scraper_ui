@@ -16,7 +16,7 @@ export const About = () => (
             <h4>Metal Cell</h4>
             <p>Displays a list of podcasts in order of date from Richie Duhig's 'The Metal Cell' radio show on firesideFM based in Cork</p>
             <h4>Check For Updates</h4>
-            <p>Clicking the 'Check For Updates' button on a page will check for new content.</p>
-            <p>Clicking the 'Check For Updates' button on a the Home Page will check for new content for all pages at once.</p>
+            <p>(i) Clicking the 'Check For Updates' button on a page will check for new content.</p>
+            <p>(i) Clicking the 'Check For Updates' button on a the Home Page will check for new content for all pages at once.</p>
         </div>
 )
