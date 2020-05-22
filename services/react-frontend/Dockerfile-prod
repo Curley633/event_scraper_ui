@@ -19,7 +19,7 @@ COPY . /react-frontend
 
 RUN npm run build
 
-#Set up Production Envireonment
+#Set up Production Environment
 # NGINX Alpine based image
 FROM nginx:alpine
 
